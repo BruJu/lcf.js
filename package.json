@@ -1,0 +1,23 @@
+{
+  "name": "lcf.js",
+  "version": "0.0.1",
+  "description": "Javascript LCF Reader",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BruJu/lcf.js.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BruJu/lcf.js/issues"
+  },
+  "homepage": "https://github.com/BruJu/lcf.js#readme",
+  "dependencies": {
+    "csv-load-sync": "^2.3.1",
+    "papaparse": "^5.3.0"
+  }
+}
