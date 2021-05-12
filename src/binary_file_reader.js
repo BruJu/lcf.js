@@ -1,4 +1,5 @@
 const fs = require("fs");
+const Fields = require("./fields");
 
 /**
  * A class that parses an RPG Maker 2003 binary file and translates it
@@ -32,6 +33,8 @@ class BinaryFile {
             }
         }
 
+        console.error("Read number " + number);
+
         return number;
     }
 
@@ -44,6 +47,26 @@ class BinaryFile {
         const buffer = Buffer.from(this.rawData.slice(this.cursor, this.cursor + size));
         this.cursor += size;
         return buffer.toString('latin1') // "ISO-8859-15"
+    }
+
+    /**
+     * Translate the content of the given LCF file to a JS object
+     * @param {Fields} fields The `Field` object
+     * @param {String} path The path to the file to translate
+     */
+    static translate(fields, path) {
+        const file = new BinaryFile(path);
+        const size = file.readBERNumber();
+        const initialType = file.readString(size);
+        return fields.convert(file, initialType);
+    }
+
+    remaining_bytes() {
+        return this.rawData.length - this.cursor;
+    }
+
+    isFinished() {
+        return this.rawData.length <= this.cursor;
     }
 }
 
