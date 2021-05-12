@@ -18,7 +18,7 @@ class BinaryFile {
      * 
      * @returns The value
      */
-    readBERNumber() {
+    readBERNumber(message) {
         let number = 0;
 
         while (true) {
@@ -33,7 +33,8 @@ class BinaryFile {
             }
         }
 
-        console.error("Read number " + number);
+        if (message === undefined) message = "Read number ";
+        console.error(message + number);
 
         return number;
     }
@@ -47,6 +48,12 @@ class BinaryFile {
         const buffer = Buffer.from(this.rawData.slice(this.cursor, this.cursor + size));
         this.cursor += size;
         return buffer.toString('latin1') // "ISO-8859-15"
+    }
+
+    readNext() {
+        const value = this.rawData[this.cursor];
+        ++this.cursor;
+        return value;
     }
 
     /**

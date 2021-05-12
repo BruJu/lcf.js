@@ -1,0 +1,1118 @@
+Line,Structure,Field,Type,Disposition,Index,Default Value,Comment
+1,Learning,level,Number,,0x01,1,Integer
+2,Learning,skill_id,Number,,0x02,1,Integer
+3,Actor,name,String,,0x01,'',String
+4,Actor,title,String,,0x02,'',String
+5,Actor,character_name,String,,0x03,'',String
+6,Actor,character_index,Number,,0x04,0,Integer
+7,Actor,transparent,Boolean,,0x05,False,Flag
+8,Actor,initial_level,Number,,0x07,1,Integer
+9,Actor,final_level,Number,,0x08,99,Integer
+10,Actor,critical_hit,Boolean,,0x09,True,Flag
+11,Actor,critical_hit_chance,Number,,0x0A,30,Integer
+12,Actor,face_name,String,,0x0F,,String
+13,Actor,face_index,Number,,0x10,0,Integer
+14,Actor,two_weapon,Boolean,,0x15,False,Flag
+15,Actor,lock_equipment,Boolean,,0x16,False,Flag
+16,Actor,auto_battle,Boolean,,0x17,False,Flag
+17,Actor,super_guard,Boolean,,0x18,False,Flag
+18,Actor,parameters,Parameters,,0x1F,,Array x 6 - Short
+19,Actor,exp_base,Number,,0x29,300,Integer
+20,Actor,exp_inflation,Number,,0x2A,300,Integer
+21,Actor,exp_correction,Number,,0x2B,0,Integer
+22,Actor,initial_equipment,Equipment,,0x33,,Integer x 5
+23,Actor,unarmed_animation,Number,,0x38,1,Integer
+24,Actor,class_id,Number,,0x39,0,Integer - RPG2003
+25,Actor,battle_x,Number,,0x3B,220,Integer - RPG2003
+26,Actor,battle_y,Number,,0x3C,120,Integer - RPG2003
+27,Actor,battler_animation,Number,,0x3E,1,Integer - RPG2003
+28,Actor,skills,Learning,Array,0x3F,,Array - RPG::Learning
+29,Actor,rename_skill,Boolean,,0x42,False,Flag
+30,Actor,skill_name,String,,0x43,'',String
+31,Actor,state_ranks,SizeField,,0x47,,Integer
+32,Actor,state_ranks,UInt8,Vector,0x48,,Array - Short
+33,Actor,attribute_ranks,SizeField,,0x49,,Integer
+34,Actor,attribute_ranks,UInt8,Vector,0x4A,,Array - Short
+35,Actor,battle_commands,UInt32,Tuple_7,0x50,,Array - RPG::BattleCommand - RPG2003
+36,Sound,name,String,,0x01,"(OFF)",String
+37,Sound,volume,Number,,0x03,100,Integer
+38,Sound,tempo,Number,,0x04,100,Integer
+39,Sound,balance,Number,,0x05,50,Integer
+40,AnimationTiming,frame,Number,,0x01,0,Integer
+41,AnimationTiming,se,Sound,,0x02,,RPG::Sound
+42,AnimationTiming,flash_scope,Number,,0x03,0,Integer
+43,AnimationTiming,flash_red,Number,,0x04,31,Integer
+44,AnimationTiming,flash_green,Number,,0x05,31,Integer
+45,AnimationTiming,flash_blue,Number,,0x06,31,Integer
+46,AnimationTiming,flash_power,Number,,0x07,31,Integer
+47,AnimationTiming,screen_shake,Number,,0x08,0,Integer - This field RPG2003 only but commonly found in some 2k LDB's. We disable the is2k3 field on purpose because if its defaulted in 2k it won't be written anyway.
+48,AnimationCellData,valid,Number,,0x01,1,Bool
+49,AnimationCellData,cell_id,Number,,0x02,0,Integer
+50,AnimationCellData,x,Number,,0x03,0,Integer
+51,AnimationCellData,y,Number,,0x04,0,Integer
+52,AnimationCellData,zoom,Number,,0x05,100,Integer
+53,AnimationCellData,tone_red,Number,,0x06,100,Integer
+54,AnimationCellData,tone_green,Number,,0x07,100,Integer
+55,AnimationCellData,tone_blue,Number,,0x08,100,Integer
+56,AnimationCellData,tone_gray,Number,,0x09,100,Integer
+57,AnimationCellData,transparency,Number,,0x0A,0,Integer
+58,AnimationFrame,cells,AnimationCellData,Array,0x01,,Array - RPG::AnimationCellData
+59,Animation,name,String,,0x01,'',String
+60,Animation,animation_name,String,,0x02,'',String
+61,Animation,large,Boolean,,0x03,False,Battle2 animation when true
+62,Animation,timings,AnimationTiming,Array,0x06,,Array - RPG::AnimationTiming
+63,Animation,scope,Number,,0x09,0,Integer
+64,Animation,position,Number,,0x0A,2,Integer
+65,Animation,frames,AnimationFrame,Array,0x0C,,Array - RPG::AnimationFrames
+66,Attribute,name,String,,0x01,'',String
+67,Attribute,type,Number,,0x02,0,Integer
+68,Attribute,a_rate,Number,,0x0B,300,Integer
+69,Attribute,b_rate,Number,,0x0C,200,Integer
+70,Attribute,c_rate,Number,,0x0D,100,Integer
+71,Attribute,d_rate,Number,,0x0E,50,Integer
+72,Attribute,e_rate,Number,,0x0F,0,Integer
+73,BattleCommand,name,String,,0x01,'',String
+74,BattleCommand,type,Number,,0x02,0,Integer
+75,BattleCommands,placement,Number,,0x02,0,Integer
+76,BattleCommands,death_handler1,Number,,0x04,0,Integer
+77,BattleCommands,row,Number,,0x06,0,Integer
+78,BattleCommands,battle_type,Number,,0x07,0,Integer
+79,BattleCommands,unused_display_normal_parameters,Boolean,,0x09,True,Unused hidden checkbox Display normal parameters in RPG2003's battle settings tab
+80,BattleCommands,commands,BattleCommand,Array,0x0A,,Array - RPG::BattleCommand
+81,BattleCommands,death_handler2,Number,,0x0F,0,Integer
+82,BattleCommands,death_event,Number,,0x10,0,Integer
+83,BattleCommands,window_size,Number,,0x14,0,Integer
+84,BattleCommands,transparency,Number,,0x18,0,Integer
+85,BattleCommands,teleport,Boolean,,0x19,False,Integer
+86,BattleCommands,teleport_id,Number,,0x1A,0,Integer
+87,BattleCommands,teleport_x,Number,,0x1B,0,Integer
+88,BattleCommands,teleport_y,Number,,0x1C,0,Integer
+89,BattleCommands,teleport_face,Number,,0x1D,0,Integer
+90,BattlerAnimationExtension,name,String,,0x01,'',String
+91,BattlerAnimationExtension,battler_name,String,,0x02,'',String
+92,BattlerAnimationExtension,battler_index,Number,,0x03,0,Integer
+93,BattlerAnimationExtension,animation_type,Number,,0x04,0,Integer
+94,BattlerAnimationExtension,animation_id,Number,,0x05,1,Integer
+95,BattlerAnimation,name,String,,0x01,'',String
+96,BattlerAnimation,speed,Number,,0x02,0,Integer
+97,BattlerAnimation,base_data,BattlerAnimationExtension,Array,0x0A,,Array - RPG::BattlerAnimationExtension
+98,BattlerAnimation,weapon_data,BattlerAnimationExtension,Array,0x0B,,Array - RPG::BattlerAnimationExtension
+99,BattlerAnimationData,move,Number,,0x05,0,Integer
+100,BattlerAnimationData,after_image,Number,,0x06,0,Integer
+101,BattlerAnimationData,pose,Number,,0x0E,-1,Integer
+102,Chipset,name,String,,0x01,'',String
+103,Chipset,chipset_name,String,,0x02,'',String
+104,Chipset,terrain_data,Int16,Vector,0x03,[1]*162,Array - Short x 162
+105,Chipset,passable_data_lower,UInt8,Vector,0x04,[15]*162,Array - Bitflag x 162
+106,Chipset,passable_data_upper,UInt8,Vector,0x05,[31]+[15]*143,Array - Bitflag x 144
+107,Chipset,animation_type,Number,,0x0B,0,Integer
+108,Chipset,animation_speed,Number,,0x0C,0,Integer
+109,Class,name,String,,0x01,'',String
+110,Class,two_weapon,Boolean,,0x15,False,Flag
+111,Class,lock_equipment,Boolean,,0x16,False,Flag
+112,Class,auto_battle,Boolean,,0x17,False,Flag
+113,Class,super_guard,Boolean,,0x18,False,Flag
+114,Class,parameters,Parameters,,0x1F,,Array x 6 - Short
+115,Class,exp_base,Number,,0x29,300,Integer
+116,Class,exp_inflation,Number,,0x2A,300,Integer
+117,Class,exp_correction,Number,,0x2B,0,Integer
+118,Class,battler_animation,Number,,0x3E,0,Integer
+119,Class,skills,Learning,Array,0x3F,,Array - RPG::Learning
+120,Class,state_ranks,SizeField,,0x47,,Integer
+121,Class,state_ranks,UInt8,Vector,0x48,,Array - Short
+122,Class,attribute_ranks,SizeField,,0x49,,Integer
+123,Class,attribute_ranks,UInt8,Vector,0x4A,,Array - Short
+124,Class,battle_commands,UInt32,Tuple_7,0x50,,Array - Uint32
+125,CommonEvent,name,String,,0x01,'',String
+126,CommonEvent,trigger,Number,,0x0B,0,Integer
+127,CommonEvent,switch_flag,Boolean,,0x0C,False,Flag
+128,CommonEvent,switch_id,Number,,0x0D,1,Integer
+129,CommonEvent,event_commands,SizeField,,0x15,,Integer
+130,CommonEvent,event_commands,EventCommand,Vector,0x16,,Array - RPG::EventCommand
+131,Skill,name,String,,0x01,'',String
+132,Skill,description,String,,0x02,'',String
+133,Skill,using_message1,String,,0x03,'',String - RPG2000
+134,Skill,using_message2,String,,0x04,'',String - RPG2000
+135,Skill,failure_message,Number,,0x07,0,Integer - RPG2000
+136,Skill,type,Number,,0x08,0,Integer
+137,Skill,sp_type,Number,,0x09,0,Integer - RPG2003
+138,Skill,sp_percent,Number,,0x0A,0,Integer - RPG2003
+139,Skill,sp_cost,Number,,0x0B,0,Integer
+140,Skill,scope,Number,,0x0C,0,Integer
+141,Skill,switch_id,Number,,0x0D,1,Integer
+142,Skill,animation_id,Number,,0x0E,0,Integer
+143,Skill,sound_effect,Sound,,0x10,,RPG::Sound
+144,Skill,occasion_field,Boolean,,0x12,True,Flag
+145,Skill,occasion_battle,Boolean,,0x13,False,Flag
+146,Skill,state_effect,Boolean,,0x14,False,Flag - RPG2003
+147,Skill,physical_rate,Number,,0x15,0,Integer
+148,Skill,magical_rate,Number,,0x16,3,Integer
+149,Skill,variance,Number,,0x17,4,Integer
+150,Skill,power,Number,,0x18,0,Integer
+151,Skill,hit,Number,,0x19,100,Integer
+152,Skill,affect_hp,Boolean,,0x1F,False,Flag
+153,Skill,affect_sp,Boolean,,0x20,False,Flag
+154,Skill,affect_attack,Boolean,,0x21,False,Flag
+155,Skill,affect_defense,Boolean,,0x22,False,Flag
+156,Skill,affect_spirit,Boolean,,0x23,False,Flag
+157,Skill,affect_agility,Boolean,,0x24,False,Flag
+158,Skill,absorb_damage,Boolean,,0x25,False,Flag
+159,Skill,ignore_defense,Boolean,,0x26,False,Flag
+160,Skill,state_effects,SizeField,,0x29,,Integer
+161,Skill,state_effects,Boolean,Vector,0x2A,,Array - Flag
+162,Skill,attribute_effects,SizeField,,0x2B,,Integer
+163,Skill,attribute_effects,Boolean,Vector,0x2C,,Array - Flag
+164,Skill,affect_attr_defence,Boolean,,0x2D,False,Flag
+165,Skill,battler_animation,Number,,0x31,-1,Integer - RPG2003
+166,Skill,battler_animation_data,Number,Array,0x32,,? - RPG2003
+167,ItemAnimation,type,Number,,0x03,0,
+168,ItemAnimation,weapon_anim,Number,,0x04,0,
+169,ItemAnimation,movement,Number,,0x05,0,
+170,ItemAnimation,after_image,Number,,0x06,0,
+171,ItemAnimation,attacks,Number,,0x07,0,
+172,ItemAnimation,ranged,Boolean,,0x08,False,
+173,ItemAnimation,ranged_anim,Number,,0x09,0,
+174,ItemAnimation,ranged_speed,Number,,0x0C,0,
+175,ItemAnimation,battle_anim,Number,,0x0D,0,
+176,Item,name,String,,0x01,'',String
+177,Item,description,String,,0x02,'',String
+178,Item,type,Number,,0x03,0,Integer
+179,Item,price,Number,,0x05,0,Integer
+180,Item,uses,Number,,0x06,1,Integer
+181,Item,atk_points1,Number,,0x0B,0,Integer
+182,Item,def_points1,Number,,0x0C,0,Integer
+183,Item,spi_points1,Number,,0x0D,0,Integer
+184,Item,agi_points1,Number,,0x0E,0,Integer
+185,Item,two_handed,Boolean,,0x0F,False,Flag
+186,Item,sp_cost,Number,,0x10,0,Integer
+187,Item,hit,Number,,0x11,90,Integer
+188,Item,critical_hit,Number,,0x12,0,Integer
+189,Item,animation_id,Number,,0x14,1,Integer
+190,Item,preemptive,Boolean,,0x15,False,Flag
+191,Item,dual_attack,Boolean,,0x16,False,Flag
+192,Item,attack_all,Boolean,,0x17,False,Flag
+193,Item,ignore_evasion,Boolean,,0x18,False,Flag
+194,Item,prevent_critical,Boolean,,0x19,False,Flag
+195,Item,raise_evasion,Boolean,,0x1A,False,Flag
+196,Item,half_sp_cost,Boolean,,0x1B,False,Flag
+197,Item,no_terrain_damage,Boolean,,0x1C,False,Flag
+198,Item,cursed,Boolean,,0x1D,False,Flag - RPG2003
+199,Item,entire_party,Boolean,,0x1F,False,Flag
+200,Item,recover_hp_rate,Number,,0x20,0,Integer
+201,Item,recover_hp,Number,,0x21,0,Integer
+202,Item,recover_sp_rate,Number,,0x22,0,Integer
+203,Item,recover_sp,Number,,0x23,0,Integer
+204,Item,occasion_field1,Boolean,,0x25,False,Flag
+205,Item,ko_only,Boolean,,0x26,False,Flag
+206,Item,max_hp_points,Number,,0x29,0,Integer
+207,Item,max_sp_points,Number,,0x2A,0,Integer
+208,Item,atk_points2,Number,,0x2B,0,Integer
+209,Item,def_points2,Number,,0x2C,0,Integer
+210,Item,spi_points2,Number,,0x2D,0,Integer
+211,Item,agi_points2,Number,,0x2E,0,Integer
+212,Item,using_message,Number,,0x33,0,Integer
+213,Item,skill_id,Number,,0x35,1,Integer
+214,Item,switch_id,Number,,0x37,1,Integer
+215,Item,occasion_field2,Boolean,,0x39,True,Flag
+216,Item,occasion_battle,Boolean,,0x3A,False,Flag
+217,Item,actor_set,SizeField,,0x3D,,Integer
+218,Item,actor_set,Boolean,Vector,0x3E,,Array - Flag
+219,Item,state_set,SizeField,,0x3F,,Integer
+220,Item,state_set,Boolean,Vector,0x40,,Array - Flag
+221,Item,attribute_set,SizeField,,0x41,,Integer
+222,Item,attribute_set,Boolean,Vector,0x42,,Array - Flag
+223,Item,state_chance,Number,,0x43,0,Integer
+224,Item,state_effect,Boolean,,0x44,False,Flag
+225,Item,weapon_animation,Number,,0x45,-1,Integer - RPG2003
+226,Item,animation_data,Number,Array,0x46,,Array - RPG2003
+227,Item,use_skill,Boolean,,0x47,False,Flag - RPG2003
+228,Item,class_set,SizeField,,0x48,,Integer - RPG2003
+229,Item,class_set,Boolean,Vector,0x49,,Array - Flag - RPG2003
+230,Item,ranged_trajectory,Number,,0x4B,0,Integer
+231,Item,ranged_target,Number,,0x4C,0,Integer
+232,EnemyAction,kind,Number,,0x01,0,Integer
+233,EnemyAction,basic,Number,,0x02,1,Integer
+234,EnemyAction,skill_id,Number,,0x03,1,Integer
+235,EnemyAction,enemy_id,Number,,0x04,1,Integer
+236,EnemyAction,condition_type,Number,,0x05,0,Integer
+237,EnemyAction,condition_param1,Number,,0x06,0,Integer
+238,EnemyAction,condition_param2,Number,,0x07,0,Integer
+239,EnemyAction,switch_id,Number,,0x08,1,Integer
+240,EnemyAction,switch_on,Boolean,,0x09,False,Flag
+241,EnemyAction,switch_on_id,Number,,0x0A,1,Integer
+242,EnemyAction,switch_off,Boolean,,0x0B,False,Flag
+243,EnemyAction,switch_off_id,Number,,0x0C,1,Integer
+244,EnemyAction,rating,Number,,0x0D,50,Integer
+245,Enemy,name,String,,0x01,'',String
+246,Enemy,battler_name,String,,0x02,'',String
+247,Enemy,battler_hue,Number,,0x03,0,Integer
+248,Enemy,max_hp,Number,,0x04,10,Integer
+249,Enemy,max_sp,Number,,0x05,10,Integer
+250,Enemy,attack,Number,,0x06,10,Integer
+251,Enemy,defense,Number,,0x07,10,Integer
+252,Enemy,spirit,Number,,0x08,10,Integer
+253,Enemy,agility,Number,,0x09,10,Integer
+254,Enemy,transparent,Boolean,,0x0A,False,Flag
+255,Enemy,exp,Number,,0x0B,0,Integer
+256,Enemy,gold,Number,,0x0C,0,Integer
+257,Enemy,drop_id,Number,,0x0D,0,Integer
+258,Enemy,drop_prob,Number,,0x0E,100,Integer
+259,Enemy,critical_hit,Boolean,,0x15,False,Flag
+260,Enemy,critical_hit_chance,Number,,0x16,30,Integer
+261,Enemy,miss,Boolean,,0x1A,False,Flag
+262,Enemy,levitate,Boolean,,0x1C,False,Flag
+263,Enemy,state_ranks,SizeField,,0x1F,,Integer
+264,Enemy,state_ranks,UInt8,Vector,0x20,,Array - Short
+265,Enemy,attribute_ranks,SizeField,,0x21,,Integer
+266,Enemy,attribute_ranks,UInt8,Vector,0x22,,Array - Short
+267,Enemy,actions,EnemyAction,Array,0x2A,,Array - RPG::EnemyAction
+268,TroopMember,enemy_id,Number,,0x01,1,Integer
+269,TroopMember,x,Number,,0x02,0,Integer
+270,TroopMember,y,Number,,0x03,0,Integer
+271,TroopMember,invisible,Boolean,,0x04,False,Flag
+272,TroopPageCondition,flags,TroopPageCondition_Flags,,0x01,,Bitflag - x 2 if RPG2003
+273,TroopPageCondition,switch_a_id,Number,,0x02,1,Integer
+274,TroopPageCondition,switch_b_id,Number,,0x03,1,Integer
+275,TroopPageCondition,variable_id,Number,,0x04,1,Integer
+276,TroopPageCondition,variable_value,Number,,0x05,0,Integer
+277,TroopPageCondition,turn_a,Number,,0x06,0,Integer
+278,TroopPageCondition,turn_b,Number,,0x07,0,Integer
+279,TroopPageCondition,fatigue_min,Number,,0x08,0,Integer
+280,TroopPageCondition,fatigue_max,Number,,0x09,100,Integer
+281,TroopPageCondition,enemy_id,Number,,0x0A,0,Integer
+282,TroopPageCondition,enemy_hp_min,Number,,0x0B,0,Integer
+283,TroopPageCondition,enemy_hp_max,Number,,0x0C,100,Integer
+284,TroopPageCondition,actor_id,Number,,0x0D,1,Integer
+285,TroopPageCondition,actor_hp_min,Number,,0x0E,0,Integer
+286,TroopPageCondition,actor_hp_max,Number,,0x0F,100,Integer
+287,TroopPageCondition,turn_enemy_id,Number,,0x10,0,Integer - RPG2003
+288,TroopPageCondition,turn_enemy_a,Number,,0x11,0,Integer - RPG2003
+289,TroopPageCondition,turn_enemy_b,Number,,0x12,0,Integer - RPG2003
+290,TroopPageCondition,turn_actor_id,Number,,0x13,1,Integer - RPG2003
+291,TroopPageCondition,turn_actor_a,Number,,0x14,0,Integer - RPG2003
+292,TroopPageCondition,turn_actor_b,Number,,0x15,0,Integer - RPG2003
+293,TroopPageCondition,command_actor_id,Number,,0x16,1,Integer - RPG2003
+294,TroopPageCondition,command_id,Number,,0x17,1,Integer - RPG2003
+295,TroopPage,condition,TroopPageCondition,,0x02,,RPG::TroopPageCondition
+296,TroopPage,event_commands,SizeField,,0x0B,,Integer
+297,TroopPage,event_commands,EventCommand,Vector,0x0C,,Array - RPG::EventCommand
+298,Troop,name,String,,0x01,'',String
+299,Troop,members,TroopMember,Array,0x02,,Array - RPG::TroopMember
+300,Troop,auto_alignment,Boolean,,0x03,False,Flag
+301,Troop,terrain_set,SizeField,,0x04,,Integer
+302,Troop,terrain_set,Boolean,Vector,0x05,,Array - Flag
+303,Troop,appear_randomly,Boolean,,0x06,False,Flag
+304,Troop,pages,TroopPage,Array,0x0B,,Array - RPG::TroopPage
+305,Terrain,name,String,,0x01,'',String
+306,Terrain,damage,Number,,0x02,0,Integer
+307,Terrain,encounter_rate,Number,,0x03,100,Integer
+308,Terrain,background_name,String,,0x04,'',String
+309,Terrain,boat_pass,Boolean,,0x05,False,Flag
+310,Terrain,ship_pass,Boolean,,0x06,False,Flag
+311,Terrain,airship_pass,Boolean,,0x07,True,Flag
+312,Terrain,airship_land,Boolean,,0x09,True,Flag
+313,Terrain,bush_depth,Number,,0x0B,0,Integer
+314,Terrain,footstep,Sound,,0x0F,,RPG::Sound - RPG2003
+315,Terrain,on_damage_se,Boolean,,0x10,False,Flag - RPG2003
+316,Terrain,background_type,Number,,0x11,0,Integer - RPG2003
+317,Terrain,background_a_name,String,,0x15,'',String - RPG2003
+318,Terrain,background_a_scrollh,Boolean,,0x16,False,Flag - RPG2003
+319,Terrain,background_a_scrollv,Boolean,,0x17,False,Flag - RPG2003
+320,Terrain,background_a_scrollh_speed,Number,,0x18,0,Integer - RPG2003
+321,Terrain,background_a_scrollv_speed,Number,,0x19,0,Integer - RPG2003
+322,Terrain,background_b,Boolean,,0x1E,False,Flag - RPG2003
+323,Terrain,background_b_name,String,,0x1F,'',String - RPG2003
+324,Terrain,background_b_scrollh,Boolean,,0x20,False,Flag - RPG2003
+325,Terrain,background_b_scrollv,Boolean,,0x21,False,Flag - RPG2003
+326,Terrain,background_b_scrollh_speed,Number,,0x22,0,Integer - RPG2003
+327,Terrain,background_b_scrollv_speed,Number,,0x23,0,Integer - RPG2003
+328,Terrain,special_flags,Terrain_Flags,,0x28,,Bitflag - RPG2003
+329,Terrain,special_back_party,Number,,0x29,15,Integer - RPG2003
+330,Terrain,special_back_enemies,Number,,0x2A,10,Integer - RPG2003
+331,Terrain,special_lateral_party,Number,,0x2B,10,Integer - RPG2003
+332,Terrain,special_lateral_enemies,Number,,0x2C,5,Integer - RPG2003
+333,Terrain,grid_location,Number,,0x2D,0,Integer - RPG2003
+334,Terrain,grid_a,Number,,0x2E,120,Integer - RPG2003
+335,Terrain,grid_b,Number,,0x2F,392,Integer - RPG2003
+336,Terrain,grid_c,Number,,0x30,16000,Integer - RPG2003
+337,State,name,String,,0x01,'',String
+338,State,type,Number,,0x02,0,Integer
+339,State,color,Number,,0x03,6,Integer
+340,State,priority,Number,,0x04,50,Integer
+341,State,restriction,Number,,0x05,0,Integer
+342,State,a_rate,Number,,0x0B,100,Integer
+343,State,b_rate,Number,,0x0C,80,Integer
+344,State,c_rate,Number,,0x0D,60,Integer
+345,State,d_rate,Number,,0x0E,30,Integer
+346,State,e_rate,Number,,0x0F,0,Integer
+347,State,hold_turn,Number,,0x15,0,Integer
+348,State,auto_release_prob,Number,,0x16,0,Integer
+349,State,release_by_damage,Number,,0x17,0,Integer
+350,State,affect_type,Number,,0x1E,0,Integer - RPG2003
+351,State,affect_attack,Boolean,,0x1F,False,Flag
+352,State,affect_defense,Boolean,,0x20,False,Flag
+353,State,affect_spirit,Boolean,,0x21,False,Flag
+354,State,affect_agility,Boolean,,0x22,False,Flag
+355,State,reduce_hit_ratio,Number,,0x23,100,Integer
+356,State,avoid_attacks,Boolean,,0x24,False,Flag - RPG2003
+357,State,reflect_magic,Boolean,,0x25,False,Flag - RPG2003
+358,State,cursed,Boolean,,0x26,False,Flag - RPG2003
+359,State,battler_animation_id,Number,,0x27,100,Integer - RPG2003
+360,State,restrict_skill,Boolean,,0x29,False,Flag
+361,State,restrict_skill_level,Number,,0x2A,0,Integer
+362,State,restrict_magic,Boolean,,0x2B,False,Flag
+363,State,restrict_magic_level,Number,,0x2C,0,Integer
+364,State,hp_change_type,Number,,0x2D,0,Integer
+365,State,sp_change_type,Number,,0x2E,0,Integer
+366,State,message_actor,String,,0x33,'',String
+367,State,message_enemy,String,,0x34,'',String
+368,State,message_already,String,,0x35,'',String
+369,State,message_affected,String,,0x36,'',String
+370,State,message_recovery,String,,0x37,'',String
+371,State,hp_change_max,Number,,0x3D,0,Integer
+372,State,hp_change_val,Number,,0x3E,0,Integer
+373,State,hp_change_map_steps,Number,,0x3F,0,Integer
+374,State,hp_change_map_val,Number,,0x40,0,Integer
+375,State,sp_change_max,Number,,0x41,0,Integer
+376,State,sp_change_val,Number,,0x42,0,Integer
+377,State,sp_change_map_steps,Number,,0x43,0,Integer
+378,State,sp_change_map_val,Number,,0x44,0,Integer
+379,Terms,encounter,String,,0x01,'',String
+380,Terms,special_combat,String,,0x02,'',String
+381,Terms,escape_success,String,,0x03,'',String
+382,Terms,escape_failure,String,,0x04,'',String
+383,Terms,victory,String,,0x05,'',String
+384,Terms,defeat,String,,0x06,'',String
+385,Terms,exp_received,String,,0x07,'',String
+386,Terms,gold_recieved_a,String,,0x08,'',String
+387,Terms,gold_recieved_b,String,,0x09,'',String
+388,Terms,item_recieved,String,,0x0A,'',String
+389,Terms,attacking,String,,0x0B,'',String
+390,Terms,enemy_critical,String,,0x0C,'',String
+391,Terms,actor_critical,String,,0x0D,'',String
+392,Terms,defending,String,,0x0E,'',String
+393,Terms,observing,String,,0x0F,'',String
+394,Terms,focus,String,,0x10,'',String
+395,Terms,autodestruction,String,,0x11,'',String
+396,Terms,enemy_escape,String,,0x12,'',String
+397,Terms,enemy_transform,String,,0x13,'',String
+398,Terms,enemy_damaged,String,,0x14,'',String
+399,Terms,enemy_undamaged,String,,0x15,'',String
+400,Terms,actor_damaged,String,,0x16,'',String
+401,Terms,actor_undamaged,String,,0x17,'',String
+402,Terms,skill_failure_a,String,,0x18,'',String
+403,Terms,skill_failure_b,String,,0x19,'',String
+404,Terms,skill_failure_c,String,,0x1A,'',String
+405,Terms,dodge,String,,0x1B,'',String
+406,Terms,use_item,String,,0x1C,'',String
+407,Terms,hp_recovery,String,,0x1D,'',String
+408,Terms,parameter_increase,String,,0x1E,'',String
+409,Terms,parameter_decrease,String,,0x1F,'',String
+410,Terms,enemy_hp_absorbed,String,,0x20,'',String
+411,Terms,actor_hp_absorbed,String,,0x21,'',String
+412,Terms,resistance_increase,String,,0x22,'',String
+413,Terms,resistance_decrease,String,,0x23,'',String
+414,Terms,level_up,String,,0x24,'',String
+415,Terms,skill_learned,String,,0x25,'',String
+416,Terms,battle_start,String,,0x26,'',String
+417,Terms,miss,String,,0x27,'',String
+418,Terms,shop_greeting1,String,,0x29,'',String
+419,Terms,shop_regreeting1,String,,0x2A,'',String
+420,Terms,shop_buy1,String,,0x2B,'',String
+421,Terms,shop_sell1,String,,0x2C,'',String
+422,Terms,shop_leave1,String,,0x2D,'',String
+423,Terms,shop_buy_select1,String,,0x2E,'',String
+424,Terms,shop_buy_number1,String,,0x2F,'',String
+425,Terms,shop_purchased1,String,,0x30,'',String
+426,Terms,shop_sell_select1,String,,0x31,'',String
+427,Terms,shop_sell_number1,String,,0x32,'',String
+428,Terms,shop_sold1,String,,0x33,'',String
+429,Terms,shop_greeting2,String,,0x36,'',String
+430,Terms,shop_regreeting2,String,,0x37,'',String
+431,Terms,shop_buy2,String,,0x38,'',String
+432,Terms,shop_sell2,String,,0x39,'',String
+433,Terms,shop_leave2,String,,0x3A,'',String
+434,Terms,shop_buy_select2,String,,0x3B,'',String
+435,Terms,shop_buy_number2,String,,0x3C,'',String
+436,Terms,shop_purchased2,String,,0x3D,'',String
+437,Terms,shop_sell_select2,String,,0x3E,'',String
+438,Terms,shop_sell_number2,String,,0x3F,'',String
+439,Terms,shop_sold2,String,,0x40,'',String
+440,Terms,shop_greeting3,String,,0x43,'',String
+441,Terms,shop_regreeting3,String,,0x44,'',String
+442,Terms,shop_buy3,String,,0x45,'',String
+443,Terms,shop_sell3,String,,0x46,'',String
+444,Terms,shop_leave3,String,,0x47,'',String
+445,Terms,shop_buy_select3,String,,0x48,'',String
+446,Terms,shop_buy_number3,String,,0x49,'',String
+447,Terms,shop_purchased3,String,,0x4A,'',String
+448,Terms,shop_sell_select3,String,,0x4B,'',String
+449,Terms,shop_sell_number3,String,,0x4C,'',String
+450,Terms,shop_sold3,String,,0x4D,'',String
+451,Terms,inn_a_greeting_1,String,,0x50,'',String
+452,Terms,inn_a_greeting_2,String,,0x51,'',String
+453,Terms,inn_a_greeting_3,String,,0x52,'',String
+454,Terms,inn_a_accept,String,,0x53,'',String
+455,Terms,inn_a_cancel,String,,0x54,'',String
+456,Terms,inn_b_greeting_1,String,,0x55,'',String
+457,Terms,inn_b_greeting_2,String,,0x56,'',String
+458,Terms,inn_b_greeting_3,String,,0x57,'',String
+459,Terms,inn_b_accept,String,,0x58,'',String
+460,Terms,inn_b_cancel,String,,0x59,'',String
+461,Terms,possessed_items,String,,0x5C,'',String
+462,Terms,equipped_items,String,,0x5D,'',String
+463,Terms,gold,String,,0x5F,'',String
+464,Terms,battle_fight,String,,0x65,'',String
+465,Terms,battle_auto,String,,0x66,'',String
+466,Terms,battle_escape,String,,0x67,'',String
+467,Terms,command_attack,String,,0x68,'',String
+468,Terms,command_defend,String,,0x69,'',String
+469,Terms,command_item,String,,0x6A,'',String
+470,Terms,command_skill,String,,0x6B,'',String
+471,Terms,menu_equipment,String,,0x6C,'',String
+472,Terms,menu_save,String,,0x6E,'',String
+473,Terms,menu_quit,String,,0x70,'',String
+474,Terms,new_game,String,,0x72,'',String
+475,Terms,load_game,String,,0x73,'',String
+476,Terms,exit_game,String,,0x75,'',String
+477,Terms,status,String,,0x76,'',String
+478,Terms,row,String,,0x77,'',String
+479,Terms,order,String,,0x78,'',String
+480,Terms,wait_on,String,,0x79,'',String
+481,Terms,wait_off,String,,0x7A,'',String
+482,Terms,level,String,,0x7B,'',String
+483,Terms,health_points,String,,0x7C,'',String
+484,Terms,spirit_points,String,,0x7D,'',String
+485,Terms,normal_status,String,,0x7E,'',String
+486,Terms,exp_short,String,,0x7F,'',String - char x 2?
+487,Terms,lvl_short,String,,0x80,'',String - char x 2?
+488,Terms,hp_short,String,,0x81,'',String - char x 2?
+489,Terms,sp_short,String,,0x82,'',String - char x 2?
+490,Terms,sp_cost,String,,0x83,'',String
+491,Terms,attack,String,,0x84,'',String
+492,Terms,defense,String,,0x85,'',String
+493,Terms,spirit,String,,0x86,'',String
+494,Terms,agility,String,,0x87,'',String
+495,Terms,weapon,String,,0x88,'',String
+496,Terms,shield,String,,0x89,'',String
+497,Terms,armor,String,,0x8A,'',String
+498,Terms,helmet,String,,0x8B,'',String
+499,Terms,accessory,String,,0x8C,'',String
+500,Terms,save_game_message,String,,0x92,'',String
+501,Terms,load_game_message,String,,0x93,'',String
+502,Terms,file,String,,0x94,'',String
+503,Terms,exit_game_message,String,,0x97,'',String
+504,Terms,yes,String,,0x98,'',String
+505,Terms,no,String,,0x99,'',String
+506,Music,name,String,,0x01,"(OFF)",String
+507,Music,fadein,Number,,0x02,0,Integer
+508,Music,volume,Number,,0x03,100,Integer
+509,Music,tempo,Number,,0x04,100,Integer
+510,Music,balance,Number,,0x05,50,Integer
+511,TestBattler,actor_id,Number,,0x01,1,Integer
+512,TestBattler,level,Number,,0x02,1,Integer
+513,TestBattler,weapon_id,Number,,0x0B,0,Integer
+514,TestBattler,shield_id,Number,,0x0C,0,Integer
+515,TestBattler,armor_id,Number,,0x0D,0,Integer
+516,TestBattler,helmet_id,Number,,0x0E,0,Integer
+517,TestBattler,accessory_id,Number,,0x0F,0,Integer
+518,System,ldb_id,Number,,0x0A,0,Integer - RPG2003
+519,System,boat_name,String,,0x0B,'',String
+520,System,ship_name,String,,0x0C,'',String
+521,System,airship_name,String,,0x0D,'',String
+522,System,boat_index,Number,,0x0E,0,Integer
+523,System,ship_index,Number,,0x0F,0,Integer
+524,System,airship_index,Number,,0x10,0,Integer
+525,System,title_name,String,,0x11,'',String
+526,System,gameover_name,String,,0x12,'',String
+527,System,system_name,String,,0x13,'',String
+528,System,system2_name,String,,0x14,'',String - RPG2003
+529,System,party,SizeField,,0x15,,Integer
+530,System,party,Int16,Vector,0x16,,Array - Short
+531,System,menu_commands,SizeField,,0x1A,,Integer - RPG2003
+532,System,menu_commands,Int16,Vector,0x1B,,Array - Short - RPG2003
+533,System,title_music,Music,,0x1F,,RPG::Music
+534,System,battle_music,Music,,0x20,,RPG::Music
+535,System,battle_end_music,Music,,0x21,,RPG::Music
+536,System,inn_music,Music,,0x22,,RPG::Music
+537,System,boat_music,Music,,0x23,,RPG::Music
+538,System,ship_music,Music,,0x24,,RPG::Music
+539,System,airship_music,Music,,0x25,,RPG::Music
+540,System,gameover_music,Music,,0x26,,RPG::Music
+541,System,cursor_se,Sound,,0x29,,RPG::Sound
+542,System,decision_se,Sound,,0x2A,,RPG::Sound
+543,System,cancel_se,Sound,,0x2B,,RPG::Sound
+544,System,buzzer_se,Sound,,0x2C,,RPG::Sound
+545,System,battle_se,Sound,,0x2D,,RPG::Sound
+546,System,escape_se,Sound,,0x2E,,RPG::Sound
+547,System,enemy_attack_se,Sound,,0x2F,,RPG::Sound
+548,System,enemy_damaged_se,Sound,,0x30,,RPG::Sound
+549,System,actor_damaged_se,Sound,,0x31,,RPG::Sound
+550,System,dodge_se,Sound,,0x32,,RPG::Sound
+551,System,enemy_death_se,Sound,,0x33,,RPG::Sound
+552,System,item_se,Sound,,0x34,,RPG::Sound
+553,System,transition_out,Number,,0x3D,0,Integer
+554,System,transition_in,Number,,0x3E,0,Integer
+555,System,battle_start_fadeout,Number,,0x3F,0,Integer
+556,System,battle_start_fadein,Number,,0x40,0,Integer
+557,System,battle_end_fadeout,Number,,0x41,0,Integer
+558,System,battle_end_fadein,Number,,0x42,0,Integer
+559,System,message_stretch,Number,,0x47,0,Integer
+560,System,font_id,Number,,0x48,0,Integer
+561,System,selected_condition,Number,,0x51,0,Integer
+562,System,selected_hero,Number,,0x52,0,Integer
+563,System,battletest_background,String,,0x54,'',String
+564,System,battletest_data,TestBattler,Array,0x55,,Array - RPG::TestBattler
+565,System,save_count,Number,,0x5B,0,Integer
+566,System,battletest_terrain,Number,,0x5E,0,Integer
+567,System,battletest_formation,Number,,0x5F,0,Integer
+568,System,battletest_condition,Number,,0x60,0,Integer
+569,System,equipment_setting,Number,,0x61,0,Integer RPG2003 - Whether equipment usage is by Actor or by Class. This is a global setting in RM2k3!
+570,System,battletest_alt_terrain,Number,,0x62,-1,Integer RPG2003 (EDITOR ONLY) - Double click on Terrain in Troops changes this setting and 0x54. Affects only the RM2k3 editor.
+571,System,show_frame,Boolean,,0x63,False,Flag - RPG2003
+572,System,frame_name,String,,0x64,'',String - RPG2003
+573,System,invert_animations,Boolean,,0x65,False,Flag - RPG2003
+574,System,show_title,Boolean,,0x6F,True,When false the title is skipped and the game starts directly. In TestPlay mode skips directly to the Load scene. Added in RPG Maker 2003 v1.11
+575,Switch,name,String,,0x01,'',String
+576,Variable,name,String,,0x01,'',String
+577,Database,actors,Actor,Array,0x0B,,RPG::Actor
+578,Database,skills,Skill,Array,0x0C,,RPG::Skill
+579,Database,items,Item,Array,0x0D,,RPG::Item
+580,Database,enemies,Enemy,Array,0x0E,,RPG::Enemy
+581,Database,troops,Troop,Array,0x0F,,RPG::Troop
+582,Database,terrains,Terrain,Array,0x10,,RPG::Terrain
+583,Database,attributes,Attribute,Array,0x11,,RPG::Attribute
+584,Database,states,State,Array,0x12,,RPG::State
+585,Database,animations,Animation,Array,0x13,,RPG::Animation
+586,Database,chipsets,Chipset,Array,0x14,,RPG::Chipset
+587,Database,terms,Terms,,0x15,,RPG::Terms
+588,Database,system,System,,0x16,,RPG::System
+589,Database,switches,Switch,Array,0x17,,RPG::Switchs
+590,Database,variables,Variable,Array,0x18,,RPG::Variables
+591,Database,commonevents,CommonEvent,Array,0x19,,RPG::CommonEvent
+592,Database,version,Number,,0x1A,0,Indicates version of database. When 1 the database was converted to RPG Maker 2000 v1.61
+593,Database,commoneventD2,,,0x1B,,Duplicated? - Not used - RPG2003
+594,Database,commoneventD3,,,0x1C,,Duplicated? - Not used - RPG2003
+595,Database,battlecommands,BattleCommands,,0x1D,,RPG::BattleCommand - RPG2003
+596,Database,classes,Class,Array,0x1E,,RPG::Class - RPG2003
+597,Database,classD1,,,0x1F,,Duplicated? - Not used - RPG2003
+598,Database,battleranimations,BattlerAnimation,Array,0x20,,RPG::BattlerAnimation - RPG2003
+599,Encounter,troop_id,Number,,0x01,0,Integer
+600,MapInfo,name,String,,0x01,'',String. Note: Map ID 0 used to be game title but it should be ignored (TreeCtrl dummy editor dumped data); always use RPG_RT.ini GameTitle instead
+601,MapInfo,parent_map,Number,,0x02,0,Integer. Used to inherit parent map properties
+602,MapInfo,indentation,Number,,0x03,0,Integer. Dummy editor dumped data. Branch indentation level in TreeCtrl
+603,MapInfo,type,Number,,0x04,-1,Integer
+604,MapInfo,scrollbar_x,Number,,0x05,0,Integer. Editor only
+605,MapInfo,scrollbar_y,Number,,0x06,0,Integer. Editor only
+606,MapInfo,expanded_node,Boolean,,0x07,False,Flag. Editor only
+607,MapInfo,music_type,Number,,0x0B,0,Integer. 0=inherit; 1=from event; 2=specified in 0x0C
+608,MapInfo,music,Music,,0x0C,,Array - RPG::Music
+609,MapInfo,background_type,Number,,0x15,0,Integer. 0=inherit; 1=from terrain ldb data; 2=specified in 0x16
+610,MapInfo,background_name,String,,0x16,'',String
+611,MapInfo,teleport,Number,,0x1F,0,Flag. 0=inherit; 1=allow; 2=disallow
+612,MapInfo,escape,Number,,0x20,0,Flag. 0=inherit; 1=allow; 2=disallow
+613,MapInfo,save,Number,,0x21,0,Flag. 0=inherit; 1=allow; 2=disallow
+614,MapInfo,encounters,Encounter,Array,0x29,,Array - RPG::Encounter
+615,MapInfo,encounter_steps,Number,,0x2C,25,0=Encounters Disabled; 1=Encounter Rate for the map
+616,MapInfo,area_rect,Rect,,0x33,,Uint32 x 4 (Left; Top; Right; Bottom). Normal map (non-area) is 0; 0; 0; 0
+617,Start,party_map_id,Number,,0x01,0,Integer
+618,Start,party_x,Number,,0x02,0,Integer
+619,Start,party_y,Number,,0x03,0,Integer
+620,Start,boat_map_id,Number,,0x0B,0,Integer
+621,Start,boat_x,Number,,0x0C,0,Integer
+622,Start,boat_y,Number,,0x0D,0,Integer
+623,Start,ship_map_id,Number,,0x15,0,Integer
+624,Start,ship_x,Number,,0x16,0,Integer
+625,Start,ship_y,Number,,0x17,0,Integer
+626,Start,airship_map_id,Number,,0x1F,0,Integer
+627,Start,airship_x,Number,,0x20,0,Integer
+628,Start,airship_y,Number,,0x21,0,Integer
+629,EventPageCondition,flags,EventPageCondition_Flags,,0x01,,Bitflag
+630,EventPageCondition,switch_a_id,Number,,0x02,1,Integer
+631,EventPageCondition,switch_b_id,Number,,0x03,1,Integer
+632,EventPageCondition,variable_id,Number,,0x04,1,Integer
+633,EventPageCondition,variable_value,Number,,0x05,0,Integer
+634,EventPageCondition,item_id,Number,,0x06,1,Integer
+635,EventPageCondition,actor_id,Number,,0x07,1,Integer
+636,EventPageCondition,timer_sec,Number,,0x08,0,Integer
+637,EventPageCondition,timer2_sec,Number,,0x09,0,Integer - RPG2003
+638,EventPageCondition,compare_operator,Number,,0x0A,1,Integer - RPG2003
+639,MoveRoute,move_commands,SizeField,,0x0B,,Integer
+640,MoveRoute,move_commands,MoveCommandSpecial,,0x0C,,Array - RPG::MoveCommand
+641,MoveRoute,repeat,Boolean,,0x15,True,Flag
+642,MoveRoute,skippable,Boolean,,0x16,False,Flag
+643,EventPage,condition,EventPageCondition,,0x02,,RPG::EventPageCondition
+644,EventPage,character_name,String,,0x15,'',String
+645,EventPage,character_index,Number,,0x16,0,Integer
+646,EventPage,character_direction,Number,,0x17,2,Integer
+647,EventPage,character_pattern,Number,,0x18,1,Integer
+648,EventPage,translucent,Boolean,,0x19,False,Integer
+649,EventPage,move_type,Number,,0x1F,1,Integer
+650,EventPage,move_frequency,Number,,0x20,3,Integer
+651,EventPage,trigger,Number,,0x21,0,Integer
+652,EventPage,layer,Number,,0x22,0,Integer
+653,EventPage,overlap_forbidden,Boolean,,0x23,False,Flag
+654,EventPage,animation_type,Number,,0x24,0,Integer
+655,EventPage,move_speed,Number,,0x25,3,Integer
+656,EventPage,move_route,MoveRoute,,0x29,,RPG::MoveRoute
+657,EventPage,event_commands,SizeField,,0x33,,Integer
+658,EventPage,event_commands,EventCommand,Vector,0x34,,Array - RPG::EventCommand
+659,Event,name,String,,0x01,'',String
+660,Event,x,Number,,0x02,0,Integer
+661,Event,y,Number,,0x03,0,Integer
+662,Event,pages,EventPage,Array,0x05,,Array - RPG::EventPage
+663,Map,chipset_id,Number,,0x01,1,Integer
+664,Map,width,Number,,0x02,20,Integer
+665,Map,height,Number,,0x03,15,Integer
+666,Map,scroll_type,Number,,0x0B,0,Integer
+667,Map,parallax_flag,Boolean,,0x1F,False,Flag
+668,Map,parallax_name,String,,0x20,'',String
+669,Map,parallax_loop_x,Boolean,,0x21,False,Flag
+670,Map,parallax_loop_y,Boolean,,0x22,False,Flag
+671,Map,parallax_auto_loop_x,Boolean,,0x23,False,Flag
+672,Map,parallax_sx,Number,,0x24,0,Integer
+673,Map,parallax_auto_loop_y,Boolean,,0x25,False,Flag
+674,Map,parallax_sy,Number,,0x26,0,Integer
+675,Map,generator_flag,Boolean,,0x28,False,Flag
+676,Map,generator_mode,Number,,0x29,0,Integer
+677,Map,top_level,Boolean,,0x2A,False,Bool
+678,Map,generator_tiles,Number,,0x30,0,Integer
+679,Map,generator_width,Number,,0x31,4,Integer
+680,Map,generator_height,Number,,0x32,1,Integer
+681,Map,generator_surround,Boolean,,0x33,True,Flag
+682,Map,generator_upper_wall,Boolean,,0x34,True,Flag
+683,Map,generator_floor_b,Boolean,,0x35,True,Flag
+684,Map,generator_floor_c,Boolean,,0x36,True,Flag
+685,Map,generator_extra_b,Boolean,,0x37,True,Flag
+686,Map,generator_extra_c,Boolean,,0x38,True,Flag
+687,Map,generator_x,UInt32,Vector,0x3C,,Uint32 x 9 RPG2003
+688,Map,generator_y,UInt32,Vector,0x3D,,Uint32 x 9 RPG2003
+689,Map,generator_tile_ids,Int16,Vector,0x3E,,Array - Short RPG2003
+690,Map,lower_layer,Int16,Vector,0x47,,Array - Short
+691,Map,upper_layer,Int16,Vector,0x48,,Array - Short
+692,Map,events,Event,Array,0x51,,Array - RPG::Event
+693,Map,save_count_2k3e,Number,,0x5A,0,Integer - Used by steam version of rm2k3 instead of 0x5B.
+694,Map,save_count,Number,,0x5B,0,Integer
+695,SaveTitle,timestamp,Double,,0x01,0.0,double - timestamp in Delphi's TDateTime format
+696,SaveTitle,hero_name,String,,0x0B,,char[]: hero name
+697,SaveTitle,hero_level,Number,,0x0C,0,int: hero level
+698,SaveTitle,hero_hp,Number,,0x0D,0,int: hero HP
+699,SaveTitle,face1_name,String,,0x15,,char[]: face filename
+700,SaveTitle,face1_id,Number,,0x16,0,int: face id
+701,SaveTitle,face2_name,String,,0x17,,char[]: face filename
+702,SaveTitle,face2_id,Number,,0x18,0,int: face id
+703,SaveTitle,face3_name,String,,0x19,,char[]: face filename
+704,SaveTitle,face3_id,Number,,0x1A,0,int: face id
+705,SaveTitle,face4_name,String,,0x1B,,char[]: face filename
+706,SaveTitle,face4_id,Number,,0x1C,0,int: face id
+707,SaveSystem,scene,Number,,0x01,0,The current Scene for RPG_RT. Legacy field only used by RPG_RT and not by EasyRPG Player. Savegames always have a scene of 5 (filemenu).
+708,SaveSystem,frame_count,Number,,0x0B,0,
+709,SaveSystem,graphics_name,String,,0x15,'',string
+710,SaveSystem,message_stretch,Number,,0x16,-1,Integer
+711,SaveSystem,font_id,Number,,0x17,0,Integer
+712,SaveSystem,switches,SizeField,,0x1F,0,
+713,SaveSystem,switches,Boolean,Vector,0x20,,
+714,SaveSystem,variables,SizeField,,0x21,0,
+715,SaveSystem,variables,Int32,Vector,0x22,,
+716,SaveSystem,message_transparent,Number,,0x29,0,
+717,SaveSystem,message_position,Number,,0x2A,2,
+718,SaveSystem,message_prevent_overlap,Number,,0x2B,1,
+719,SaveSystem,message_continue_events,Number,,0x2C,0,
+720,SaveSystem,face_name,String,,0x33,'',
+721,SaveSystem,face_id,Number,,0x34,0,
+722,SaveSystem,face_right,Boolean,,0x35,False,bool
+723,SaveSystem,face_flip,Boolean,,0x36,False,bool
+724,SaveSystem,transparent,Boolean,,0x37,False,
+725,SaveSystem,music_stopping,Boolean,,0x3D,False,Music is being faded out or had been stopped (Play music with the same music as currently playing will restart the music when this flag is set)
+726,SaveSystem,title_music,Music,,0x47,,
+727,SaveSystem,battle_music,Music,,0x48,,
+728,SaveSystem,battle_end_music,Music,,0x49,,
+729,SaveSystem,inn_music,Music,,0x4A,,
+730,SaveSystem,current_music,Music,,0x4B,,
+731,SaveSystem,before_vehicle_music,Music,,0x4C,,
+732,SaveSystem,before_battle_music,Music,,0x4D,,
+733,SaveSystem,stored_music,Music,,0x4E,,
+734,SaveSystem,boat_music,Music,,0x4F,,
+735,SaveSystem,ship_music,Music,,0x50,,
+736,SaveSystem,airship_music,Music,,0x51,,
+737,SaveSystem,gameover_music,Music,,0x52,,
+738,SaveSystem,cursor_se,Sound,,0x5B,,
+739,SaveSystem,decision_se,Sound,,0x5C,,
+740,SaveSystem,cancel_se,Sound,,0x5D,,
+741,SaveSystem,buzzer_se,Sound,,0x5E,,
+742,SaveSystem,battle_se,Sound,,0x5F,,
+743,SaveSystem,escape_se,Sound,,0x60,,
+744,SaveSystem,enemy_attack_se,Sound,,0x61,,
+745,SaveSystem,enemy_damaged_se,Sound,,0x62,,
+746,SaveSystem,actor_damaged_se,Sound,,0x63,,
+747,SaveSystem,dodge_se,Sound,,0x64,,
+748,SaveSystem,enemy_death_se,Sound,,0x65,,
+749,SaveSystem,item_se,Sound,,0x66,,
+750,SaveSystem,transition_out,Int8,,0x6F,1,
+751,SaveSystem,transition_in,Int8,,0x70,1,
+752,SaveSystem,battle_start_fadeout,Int8,,0x71,1,
+753,SaveSystem,battle_start_fadein,Int8,,0x72,1,
+754,SaveSystem,battle_end_fadeout,Int8,,0x73,1,
+755,SaveSystem,battle_end_fadein,Int8,,0x74,1,
+756,SaveSystem,teleport_allowed,Boolean,,0x79,True,
+757,SaveSystem,escape_allowed,Boolean,,0x7A,True,
+758,SaveSystem,save_allowed,Boolean,,0x7B,True,
+759,SaveSystem,menu_allowed,Boolean,,0x7C,True,
+760,SaveSystem,background,String,,0x7D,,string
+761,SaveSystem,save_count,Number,,0x83,0,
+762,SaveSystem,save_slot,Number,,0x84,1,
+763,SaveSystem,atb_mode,Number,,0x8C,0,ATB mode of RPG 2003 battle system.
+764,SaveScreen,tint_finish_red,Number,,0x01,100,int
+765,SaveScreen,tint_finish_green,Number,,0x02,100,int
+766,SaveScreen,tint_finish_blue,Number,,0x03,100,int
+767,SaveScreen,tint_finish_sat,Number,,0x04,100,int
+768,SaveScreen,tint_current_red,Double,,0x0B,100.0,double
+769,SaveScreen,tint_current_green,Double,,0x0C,100.0,double
+770,SaveScreen,tint_current_blue,Double,,0x0D,100.0,double
+771,SaveScreen,tint_current_sat,Double,,0x0E,100.0,double
+772,SaveScreen,tint_time_left,Number,,0x0F,0,int
+773,SaveScreen,flash_continuous,Boolean,,0x14,False,int
+774,SaveScreen,flash_red,Number,,0x15,0,int
+775,SaveScreen,flash_green,Number,,0x16,0,int
+776,SaveScreen,flash_blue,Number,,0x17,0,int
+777,SaveScreen,flash_current_level,Double,,0x18,0.0,double
+778,SaveScreen,flash_time_left,Number,,0x19,0,int
+779,SaveScreen,shake_continuous,Boolean,,0x1E,False,int
+780,SaveScreen,shake_strength,Number,,0x1F,0,int
+781,SaveScreen,shake_speed,Number,,0x20,0,int
+782,SaveScreen,shake_position,Number,,0x21,0,int
+783,SaveScreen,shake_position_y,Number,,0x22,0,int - unused
+784,SaveScreen,shake_time_left,Number,,0x23,0,int
+785,SaveScreen,pan_x,Number,,0x29,0,int
+786,SaveScreen,pan_y,Number,,0x2A,0,int
+787,SaveScreen,battleanim_id,Number,,0x2B,0,int - battle animation ID
+788,SaveScreen,battleanim_target,Number,,0x2C,0,int - battle animation target
+789,SaveScreen,battleanim_frame,Number,,0x2D,0,int - frame count - Ref<Animation>? FIXME
+790,SaveScreen,battleanim_active,Boolean,,0x2E,False,There is currently a battle animation playing
+791,SaveScreen,battleanim_global,Boolean,,0x2F,False,int - battle animation global scope
+792,SaveScreen,weather,Number,,0x30,0,int
+793,SaveScreen,weather_strength,Number,,0x31,0,int
+794,SavePicture,name,String,,0x01,'',string
+795,SavePicture,start_x,Double,,0x02,0.0,double
+796,SavePicture,start_y,Double,,0x03,0.0,double
+797,SavePicture,current_x,Double,,0x04,0.0,double
+798,SavePicture,current_y,Double,,0x05,0.0,double
+799,SavePicture,fixed_to_map,Boolean,,0x06,False,bool
+800,SavePicture,current_magnify,Double,,0x07,-1.0,double
+801,SavePicture,current_top_trans,Double,,0x08,0.0,double
+802,SavePicture,transparency,Boolean,,0x09,False,bool
+803,SavePicture,current_red,Double,,0x0B,-1.0,double
+804,SavePicture,current_green,Double,,0x0C,-1.0,double
+805,SavePicture,current_blue,Double,,0x0D,-1.0,double
+806,SavePicture,current_sat,Double,,0x0E,-1.0,double
+807,SavePicture,effect_mode,Number,,0x0F,0,int
+808,SavePicture,current_effect,Double,,0x10,0.0,double
+809,SavePicture,current_bot_trans,Double,,0x12,0.0,double
+810,SavePicture,spritesheet_cols,Number,,0x13,1,Spritesheet columns
+811,SavePicture,spritesheet_rows,Number,,0x14,1,Spritesheet rows
+812,SavePicture,spritesheet_frame,Number,,0x15,0,Current spritesheet frame
+813,SavePicture,spritesheet_speed,Number,,0x16,0,Spritesheet speed (X frames per second)
+814,SavePicture,frames,Number,,0x17,0,Frames since ShowPicture
+815,SavePicture,spritesheet_play_once,Boolean,,0x18,False,True: Play once and destroy; False: Loop spritesheet
+816,SavePicture,map_layer,Number,,0x19,7,Layer to show picture on at the map
+817,SavePicture,battle_layer,Number,,0x1A,0,Layer to show picture on in battle
+818,SavePicture,flags,SavePicture_Flags,,0x1B,97,Bitflag. Persists Map/Battle change/end; Affected by Shake/Flash/Tint
+819,SavePicture,finish_x,Double,,0x1F,0.0,double
+820,SavePicture,finish_y,Double,,0x20,0.0,double
+821,SavePicture,finish_magnify,Number,,0x21,100,int
+822,SavePicture,finish_top_trans,Number,,0x22,0,int
+823,SavePicture,finish_bot_trans,Number,,0x23,0,int
+824,SavePicture,finish_red,Number,,0x29,100,int
+825,SavePicture,finish_green,Number,,0x2A,100,int
+826,SavePicture,finish_blue,Number,,0x2B,100,int
+827,SavePicture,finish_sat,Number,,0x2C,100,int
+828,SavePicture,finish_effect,Number,,0x2E,0,int
+829,SavePicture,time_left,Number,,0x33,0,int
+830,SavePicture,current_rotation,Double,,0x34,0.0,double
+831,SavePicture,current_waver,Number,,0x35,0,int
+832,SavePartyLocation,active,Boolean,,0x01,True,Flag
+833,SavePartyLocation,map_id,Number,,0x0B,-1,?
+834,SavePartyLocation,position_x,Number,,0x0C,-1,?
+835,SavePartyLocation,position_y,Number,,0x0D,-1,?
+836,SavePartyLocation,direction,Number,,0x15,2,Facing direction
+837,SavePartyLocation,sprite_direction,Number,,0x16,2,Sprite direction
+838,SavePartyLocation,anim_frame,Number,,0x17,1,?
+839,SavePartyLocation,transparency,Number,,0x18,0,0 or 3 - Transparency level of the main party member
+840,SavePartyLocation,remaining_step,Number,,0x1F,0,From 0 to 255 - Remaining distance of the current move
+841,SavePartyLocation,move_frequency,Number,,0x20,2,?
+842,SavePartyLocation,layer,Number,,0x21,1,?
+843,SavePartyLocation,overlap_forbidden,Boolean,,0x22,False,Flag
+844,SavePartyLocation,animation_type,Number,,0x23,1,Integer
+845,SavePartyLocation,lock_facing,Boolean,,0x24,False,facing locked
+846,SavePartyLocation,move_speed,Number,,0x25,4,
+847,SavePartyLocation,move_route,MoveRoute,,0x29,,chunks: RPG::MoveRoute
+848,SavePartyLocation,move_route_overwrite,Boolean,,0x2A,False,Use custom move route
+849,SavePartyLocation,move_route_index,Number,,0x2B,0,Index of MoveEvent command route
+850,SavePartyLocation,move_route_repeated,Boolean,,0x2C,False,Boolean - Repeating move route has been completed at least once
+851,SavePartyLocation,sprite_transparent,Boolean,,0x2E,False,bool
+852,SavePartyLocation,route_through,Boolean,,0x2F,False,Whether the move route (MoveEvent or defined route) activated through mode. Almost the same as 0x33 (through). 0x2F represents that by MoveEvent the through mode has been activated; but 0x33 is what's actually checked for collisions. In several cases; 0x33 will be changed to indicate a condition in which an event or the hero is in through mode through other means than a MoveEvent; which can be: an event with an empty page being activated; player pressing Ctrl in test play; hero entering or exiting a vehicle (only very briefly)
+853,SavePartyLocation,anim_paused,Number,,0x30,0,?
+854,SavePartyLocation,through,Boolean,,0x33,False,Can go through anything
+855,SavePartyLocation,stop_count,Number,,0x34,0,?
+856,SavePartyLocation,anim_count,Number,,0x35,0,?
+857,SavePartyLocation,max_stop_count,Number,,0x36,0,2^move_frequency - Once stop_count reaches it; the next move command is executed
+858,SavePartyLocation,jumping,Boolean,,0x3D,False,?
+859,SavePartyLocation,begin_jump_x,Number,,0x3E,0,?
+860,SavePartyLocation,begin_jump_y,Number,,0x3F,0,?
+861,SavePartyLocation,pause,Boolean,,0x47,False,Indicates paused movement for an event; set while the player is talking to the event so that it won't run away (not relevant for hero themselves)
+862,SavePartyLocation,flying,Boolean,,0x48,False,Flag
+863,SavePartyLocation,sprite_name,String,,0x49,'',?
+864,SavePartyLocation,sprite_id,Number,,0x4A,0,?
+865,SavePartyLocation,processed,Boolean,,0x4B,False,Flag whether an event (the hero is also an event) in the current frame processed their movement actions (may also be none). This is required because events are asked every frame to initiate their next movement step if required; but not necessarily in order; because checking passability for an event trying to move onto another tile will trigger any event's movement initiation which is on the target tile (because this way the target event may move away; allowing the other event to move to that tile). This flag ensures that every event processes their possible movements only once per frame even if it was already asked to do so out of order as part of another event's movement initiation.
+866,SavePartyLocation,flash_red,Number,,0x51,100,int
+867,SavePartyLocation,flash_green,Number,,0x52,100,int
+868,SavePartyLocation,flash_blue,Number,,0x53,100,int
+869,SavePartyLocation,flash_current_level,Double,,0x54,0.0,double
+870,SavePartyLocation,flash_time_left,Number,,0x55,0,int
+871,SavePartyLocation,boarding,Boolean,,0x65,False,
+872,SavePartyLocation,aboard,Boolean,,0x66,False,
+873,SavePartyLocation,vehicle,Number,,0x67,0,Vehicle in use
+874,SavePartyLocation,unboarding,Boolean,,0x68,False,
+875,SavePartyLocation,preboard_move_speed,Number,,0x69,4,Move speed before the party boarded the vehicle
+876,SavePartyLocation,menu_calling,Boolean,,0x6C,False,Flag which briefly is true if the player presses ESC. At the right place in handling each frame's activities for the player; the code checks whether this flag is set and calls the menu; however there are several conditions which would cancel this flag and instead process another higher-priority action; such as when an encounter takes place during the same frame.
+877,SavePartyLocation,pan_state,Number,,0x6f,1,0: screen is fixed; 1: screen moves with player.
+878,SavePartyLocation,pan_current_x,Number,,0x70,2304,Number of 1/16 pixels to the left of player
+879,SavePartyLocation,pan_current_y,Number,,0x71,1792,Number of 1/16 pixels above the player
+880,SavePartyLocation,pan_finish_x,Number,,0x72,2304,Number of 1/16 pixels to the left of player when current scroll finishes
+881,SavePartyLocation,pan_finish_y,Number,,0x73,1792,Number of 1/16 pixels above the player when current scroll finishes.
+882,SavePartyLocation,pan_speed,Number,,0x79,16,speed in the scrolls of the screen - shown in sixteenth pixels.
+883,SavePartyLocation,encounter_steps,Number,,0x7C,0,int: sum of terrain.encounter_rate for each step
+884,SavePartyLocation,encounter_calling,Boolean,,0x7D,False,Similar to 0x6C - is used to signal a different piece of code that an encounter is to be triggered; which may be cancelled by other conditions such as the player starting to interact with an event during the same frame.
+885,SavePartyLocation,map_save_count,Number,,0x83,0,Mirrors save_count of current map. On mismatch events are not continued after load.
+886,SavePartyLocation,database_save_count,Number,,0x84,0,?
+887,SaveVehicleLocation,active,Boolean,,0x01,True,Flag
+888,SaveVehicleLocation,map_id,Number,,0x0B,-1,?
+889,SaveVehicleLocation,position_x,Number,,0x0C,-1,?
+890,SaveVehicleLocation,position_y,Number,,0x0D,-1,?
+891,SaveVehicleLocation,direction,Number,,0x15,2,Facing direction
+892,SaveVehicleLocation,sprite_direction,Number,,0x16,2,Sprite direction
+893,SaveVehicleLocation,anim_frame,Number,,0x17,1,?
+894,SaveVehicleLocation,transparency,Number,,0x18,0,always 0
+895,SaveVehicleLocation,remaining_step,Number,,0x1F,0,From 0 to 255 - Remaining distance of the current move
+896,SaveVehicleLocation,move_frequency,Number,,0x20,2,?
+897,SaveVehicleLocation,layer,Number,,0x21,1,?
+898,SaveVehicleLocation,overlap_forbidden,Boolean,,0x22,False,Flag
+899,SaveVehicleLocation,animation_type,Number,,0x23,1,
+900,SaveVehicleLocation,lock_facing,Boolean,,0x24,False,facing locked
+901,SaveVehicleLocation,move_speed,Number,,0x25,-1,
+902,SaveVehicleLocation,move_route,MoveRoute,,0x29,,chunks: RPG::MoveRoute
+903,SaveVehicleLocation,move_route_overwrite,Boolean,,0x2A,False,Use custom move route
+904,SaveVehicleLocation,move_route_index,Number,,0x2B,0,Index of MoveEvent command route
+905,SaveVehicleLocation,move_route_repeated,Boolean,,0x2C,False,Boolean - Repeating move route has been completed at least once
+906,SaveVehicleLocation,anim_paused,Number,,0x30,0,?
+907,SaveVehicleLocation,through,Boolean,,0x33,False,Can go through anything
+908,SaveVehicleLocation,stop_count,Number,,0x34,0,?
+909,SaveVehicleLocation,anim_count,Number,,0x35,0,?
+910,SaveVehicleLocation,max_stop_count,Number,,0x36,0,2^move_frequency - Once stop_count reaches it; the next move command is executed
+911,SaveVehicleLocation,jumping,Boolean,,0x3D,False,?
+912,SaveVehicleLocation,begin_jump_x,Number,,0x3E,0,?
+913,SaveVehicleLocation,begin_jump_y,Number,,0x3F,0,?
+914,SaveVehicleLocation,pause,Boolean,,0x47,False,Indicates paused movement for an event; set while the player is talking to the event so that it won't run away (not relevant for vehicles themselves)
+915,SaveVehicleLocation,flying,Boolean,,0x48,False,Flag
+916,SaveVehicleLocation,sprite_name,String,,0x49,'',?
+917,SaveVehicleLocation,sprite_id,Number,,0x4A,0,?
+918,SaveVehicleLocation,processed,Boolean,,0x4B,False,Flag whether an event (the hero is also an event) in the current frame processed their movement actions (may also be none). This is required because events are asked every frame to initiate their next movement step if required; but not necessarily in order; because checking passability for an event trying to move onto another tile will trigger any event's movement initiation which is on the target tile (because this way the target event may move away; allowing the other event to move to that tile). This flag ensures that every event processes their possible movements only once per frame even if it was already asked to do so out of order as part of another event's movement initiation.
+919,SaveVehicleLocation,flash_red,Number,,0x51,100,int
+920,SaveVehicleLocation,flash_green,Number,,0x52,100,int
+921,SaveVehicleLocation,flash_blue,Number,,0x53,100,int
+922,SaveVehicleLocation,flash_current_level,Double,,0x54,0.0,double
+923,SaveVehicleLocation,flash_time_left,Number,,0x55,0,int
+924,SaveVehicleLocation,vehicle,Number,,0x65,0,Which vehicle
+925,SaveVehicleLocation,original_move_route_index,Number,,0x66,0,Index of custom move route
+926,SaveVehicleLocation,remaining_ascent,Number,,0x6A,0,From 0 to 255 - In flying vehicles; remaining distance to ascend
+927,SaveVehicleLocation,remaining_descent,Number,,0x6B,0,From 0 to 255 - In flying vehicles; remaining distance to descend
+928,SaveVehicleLocation,sprite2_name,String,,0x6F,'',string
+929,SaveVehicleLocation,sprite2_id,Number,,0x70,0,int
+930,SaveActor,name,String,,0x01,'',string
+931,SaveActor,title,String,,0x02,'',string
+932,SaveActor,sprite_name,String,,0x0B,'',string
+933,SaveActor,sprite_id,Number,,0x0C,0,int
+934,SaveActor,sprite_flags,Number,,0x0D,0,int
+935,SaveActor,face_name,String,,0x15,'',string
+936,SaveActor,face_id,Number,,0x16,0,int
+937,SaveActor,level,Number,,0x1F,-1,int
+938,SaveActor,exp,Number,,0x20,-1,int
+939,SaveActor,hp_mod,Number,,0x21,-1,?
+940,SaveActor,sp_mod,Number,,0x22,-1,?
+941,SaveActor,attack_mod,Number,,0x29,0,int
+942,SaveActor,defense_mod,Number,,0x2A,0,int
+943,SaveActor,spirit_mod,Number,,0x2B,0,int
+944,SaveActor,agility_mod,Number,,0x2C,0,int
+945,SaveActor,skills_size,Number,,0x33,-1,?
+946,SaveActor,skills,Int16,Vector,0x34,,short[]
+947,SaveActor,equipped,Int16,Vector,0x3D,,short[5]
+948,SaveActor,current_hp,Number,,0x47,-1,int
+949,SaveActor,current_sp,Number,,0x48,-1,int
+950,SaveActor,battle_commands,UInt32,Tuple_7,0x50,,array of (uncompressed) int32
+951,SaveActor,status,SizeField,,0x51,0,?
+952,SaveActor,status,Int16,Vector,0x52,,array of short
+953,SaveActor,changed_battle_commands,Boolean,,0x53,False,bool
+954,SaveActor,class_id,Number,,0x5A,-1,int class-id
+955,SaveActor,row,Number,,0x5B,0,RPG2003 Battle row (-1 Back; 1 Front)
+956,SaveActor,two_weapon,Boolean,,0x5C,False,bool
+957,SaveActor,lock_equipment,Boolean,,0x5D,False,bool
+958,SaveActor,auto_battle,Boolean,,0x5E,False,bool
+959,SaveActor,super_guard,Boolean,,0x5F,False,bool
+960,SaveActor,battler_animation,Number,,0x60,0,Integer - RPG2003
+961,SaveInventory,party_size,Number,,0x01,-1,?
+962,SaveInventory,party,Int16,Vector,0x02,,?
+963,SaveInventory,items_size,Number,,0x0B,-1,?
+964,SaveInventory,item_ids,Int16,Vector,0x0C,,short[]: item list
+965,SaveInventory,item_counts,UInt8,Vector,0x0D,,?
+966,SaveInventory,item_usage,UInt8,Vector,0x0E,,?
+967,SaveInventory,gold,Number,,0x15,0,int
+968,SaveInventory,timer1_secs,Number,,0x17,0,int
+969,SaveInventory,timer1_active,Boolean,,0x18,False,bool
+970,SaveInventory,timer1_visible,Boolean,,0x19,False,bool
+971,SaveInventory,timer1_battle,Boolean,,0x1A,False,bool
+972,SaveInventory,timer2_secs,Number,,0x1B,0,int
+973,SaveInventory,timer2_active,Boolean,,0x1C,False,bool
+974,SaveInventory,timer2_visible,Boolean,,0x1D,False,bool
+975,SaveInventory,timer2_battle,Boolean,,0x1E,False,bool
+976,SaveInventory,battles,Number,,0x20,0,?
+977,SaveInventory,defeats,Number,,0x21,0,?
+978,SaveInventory,escapes,Number,,0x22,0,?
+979,SaveInventory,victories,Number,,0x23,0,?
+980,SaveInventory,turns,Number,,0x29,0,Number of turns passed in the latest battle fought. RPG2000: 'turn' passes after every character (enemies and heroes both) performed an action each. RPG2003: every time a hero or enemy performs an action that is considered a 'turn'.
+981,SaveInventory,steps,Number,,0x2A,0,Number of steps taken in the field.
+982,SaveTarget,map_id,Number,,0x01,0,int
+983,SaveTarget,map_x,Number,,0x02,0,int
+984,SaveTarget,map_y,Number,,0x03,0,int
+985,SaveTarget,switch_on,Boolean,,0x04,False,bool
+986,SaveTarget,switch_id,Number,,0x05,0,int
+987,SaveEventCommands,commands_size,Number,,0x01,0,int
+988,SaveEventCommands,commands,EventCommand,Vector,0x02,,event command list
+989,SaveEventCommands,current_command,Number,,0x0B,0,int
+990,SaveEventCommands,event_id,Number,,0x0C,0,0 if it's common event or in other map
+991,SaveEventCommands,actioned,Boolean,,0x0D,False,Event was triggered by the Action Key
+992,SaveEventCommands,subcommand_path,SizeField,,0x15,0,size of the 0x16 vector - indention level
+993,SaveEventCommands,subcommand_path,UInt8,Vector,0x16,,byte For each indention level in the script; an ID is stored there which corresponds to the branch to take in case a command allows multiple branches. For example; the Show Choice command would write the result of the choice (for example 2 for the third item) into the current indention level's entry in this array; and the script processor would later look for the Case subcommand with the corresponding ID; if any; and jump to that one (if none found; it would jump to the End Case subcommand). Once the jump is executed; the ID is set to 255 (probably a protection mechanism even though there should normally not be multiple subcommands with the same ID).
+994,SaveEventData,commands,SaveEventCommands,Array,0x01,,array
+995,SaveEventData,show_message,Boolean,,0x04,False,Show Message command has been executed in the current move route
+996,SaveEventData,abort_on_escape,Boolean,,0x0B,False,Flag which is set before a fight if the EnemyEncounter event command had battle_escape_mode set to 1 (abort event on escape). After the fight; the interpreter checks if the battle result was an escape and this flag was set and abort the event in that case.
+997,SaveEventData,wait_movement,Boolean,,0x0D,False,Whether Wait for all movement is in effect
+998,SaveEventData,keyinput_wait,Boolean,,0x15,False,
+999,SaveEventData,keyinput_variable,UInt8,,0x16,0,
+1000,SaveEventData,keyinput_all_directions,Boolean,,0x17,False,
+1001,SaveEventData,keyinput_decision,Boolean,,0x18,False,
+1002,SaveEventData,keyinput_cancel,Boolean,,0x19,False,
+1003,SaveEventData,keyinput_numbers,Boolean,,0x1A,False,In RM2k Value this is keyinput_shift
+1004,SaveEventData,keyinput_operators,Boolean,,0x1B,False,In Value keyinput_down
+1005,SaveEventData,keyinput_shift,Boolean,,0x1C,False,In Value keyinput_left
+1006,SaveEventData,keyinput_value_right,Boolean,,0x1D,False,Only in Value
+1007,SaveEventData,keyinput_value_up,Boolean,,0x1E,False,Only in Value
+1008,SaveEventData,wait_time,Number,,0x1F,0,int
+1009,SaveEventData,keyinput_time_variable,Number,,0x20,-1,
+1010,SaveEventData,keyinput_down,Boolean,,0x23,False,
+1011,SaveEventData,keyinput_left,Boolean,,0x24,False,
+1012,SaveEventData,keyinput_right,Boolean,,0x25,False,
+1013,SaveEventData,keyinput_up,Boolean,,0x26,False,
+1014,SaveEventData,keyinput_timed,Boolean,,0x29,False,
+1015,SaveEventData,unused_wait_for_key_or_enter,Boolean,,0x2a,False,If enabled; an event waits for either the confirmation key to be pressed or one of the keys defined by KeyInputProc before continuing. This flag seems to be unused though since it is never written to (keyinput_wait is used instead).
+1016,SaveMapEvent,active,Boolean,,0x01,True,Flag
+1017,SaveMapEvent,map_id,Number,,0x0B,-1,?
+1018,SaveMapEvent,position_x,Number,,0x0C,-1,?
+1019,SaveMapEvent,position_y,Number,,0x0D,-1,?
+1020,SaveMapEvent,direction,Number,,0x15,2,Facing direction
+1021,SaveMapEvent,sprite_direction,Number,,0x16,2,Sprite direction
+1022,SaveMapEvent,anim_frame,Number,,0x17,1,?
+1023,SaveMapEvent,transparency,Number,,0x18,0,0 or 3 - Transparency level of the current event page
+1024,SaveMapEvent,remaining_step,Number,,0x1F,0,From 0 to 255 - Remaining distance of the current move
+1025,SaveMapEvent,move_frequency,Number,,0x20,2,?
+1026,SaveMapEvent,layer,Number,,0x21,1,?
+1027,SaveMapEvent,overlap_forbidden,Boolean,,0x22,False,Flag
+1028,SaveMapEvent,animation_type,Number,,0x23,1,
+1029,SaveMapEvent,lock_facing,Boolean,,0x24,False,facing locked
+1030,SaveMapEvent,move_speed,Number,,0x25,-1,
+1031,SaveMapEvent,move_route,MoveRoute,,0x29,,chunks: RPG::MoveRoute
+1032,SaveMapEvent,move_route_overwrite,Boolean,,0x2A,False,Use custom move route
+1033,SaveMapEvent,move_route_index,Number,,0x2B,0,Index of MoveEvent command route
+1034,SaveMapEvent,move_route_repeated,Boolean,,0x2C,False,Boolean - Repeating move route has been completed at least once
+1035,SaveMapEvent,route_through,Boolean,,0x2F,False,Whether the move route (MoveEvent or defined route) activated through mode. Almost the same as 0x33 (through). 0x2F represents that by MoveEvent the through mode has been activated; but 0x33 is what's actually checked for collisions. In several cases; 0x33 will be changed to indicate a condition in which an event or the hero is in through mode through other means than a MoveEvent; which can be: an event with an empty page being activated; player pressing Ctrl in test play; hero entering or exiting a vehicle (only very briefly)
+1036,SaveMapEvent,anim_paused,Number,,0x30,0,?
+1037,SaveMapEvent,through,Boolean,,0x33,False,Can go through anything
+1038,SaveMapEvent,stop_count,Number,,0x34,0,?
+1039,SaveMapEvent,anim_count,Number,,0x35,0,?
+1040,SaveMapEvent,max_stop_count,Number,,0x36,0,2^move_frequency unless it's a random move route - Once stop_count reaches it; the next move command is executed
+1041,SaveMapEvent,jumping,Boolean,,0x3D,False,?
+1042,SaveMapEvent,begin_jump_x,Number,,0x3E,0,?
+1043,SaveMapEvent,begin_jump_y,Number,,0x3F,0,?
+1044,SaveMapEvent,pause,Boolean,,0x47,False,Indicates paused movement for an event; set while the player is talking to the event so that it won't run away
+1045,SaveMapEvent,flying,Boolean,,0x48,False,Flag
+1046,SaveMapEvent,sprite_name,String,,0x49,'',?
+1047,SaveMapEvent,sprite_id,Number,,0x4A,-1,?
+1048,SaveMapEvent,processed,Boolean,,0x4B,False,Flag whether an event (the hero is also an event) in the current frame processed their movement actions (may also be none). This is required because events are asked every frame to initiate their next movement step if required; but not necessarily in order; because checking passability for an event trying to move onto another tile will trigger any event's movement initiation which is on the target tile (because this way the target event may move away; allowing the other event to move to that tile). This flag ensures that every event processes their possible movements only once per frame even if it was already asked to do so out of order as part of another event's movement initiation.
+1049,SaveMapEvent,flash_red,Number,,0x51,100,int
+1050,SaveMapEvent,flash_green,Number,,0x52,100,int
+1051,SaveMapEvent,flash_blue,Number,,0x53,100,int
+1052,SaveMapEvent,flash_current_level,Double,,0x54,0.0,double
+1053,SaveMapEvent,flash_time_left,Number,,0x55,0,int
+1054,SaveMapEvent,running,Boolean,,0x65,False,?
+1055,SaveMapEvent,original_move_route_index,Number,,0x66,0,Index of custom move route
+1056,SaveMapEvent,pending,Boolean,,0x67,False,If true; this event will run after the current running event stops running. FIXME: See issue #174
+1057,SaveMapEvent,event_data,SaveEventData,,0x6C,,chunks
+1058,SaveMapInfo,position_x,Number,,0x01,0,int
+1059,SaveMapInfo,position_y,Number,,0x02,0,int
+1060,SaveMapInfo,encounter_rate,Number,,0x03,-1,int
+1061,SaveMapInfo,chipset_id,Number,,0x05,-1,int
+1062,SaveMapInfo,events,SaveMapEvent,Array,0x0B,,? array
+1063,SaveMapInfo,lower_tiles,UInt8,Vector,0x15,,? [00 01 02 ... 8E 8F]
+1064,SaveMapInfo,upper_tiles,UInt8,Vector,0x16,,
+1065,SaveMapInfo,parallax_name,String,,0x20,'',string
+1066,SaveMapInfo,parallax_horz,Boolean,,0x21,False,bool
+1067,SaveMapInfo,parallax_vert,Boolean,,0x22,False,bool
+1068,SaveMapInfo,parallax_horz_auto,Boolean,,0x23,False,bool
+1069,SaveMapInfo,parallax_horz_speed,Number,,0x24,0,int
+1070,SaveMapInfo,parallax_vert_auto,Boolean,,0x25,False,bool
+1071,SaveMapInfo,parallax_vert_speed,Number,,0x26,0,int
+1072,SaveCommonEvent,event_data,SaveEventData,,0x01,,chunks
+1073,SavePanorama,pan_x,Number,,0x01,0,Panorama X position
+1074,SavePanorama,pan_y,Number,,0x02,0,Panorama Y position
+1075,Save,title,SaveTitle,,0x64,,RPG::SaveTitle
+1076,Save,system,SaveSystem,,0x65,,RPG::SaveSystem
+1077,Save,screen,SaveScreen,,0x66,,RPG::SaveScreen
+1078,Save,pictures,SavePicture,Array,0x67,,array of RPG::SavePicture
+1079,Save,party_location,SavePartyLocation,,0x68,,RPG::SavePartyLocation
+1080,Save,boat_location,SaveVehicleLocation,,0x69,,RPG::SaveVehicleLocation
+1081,Save,ship_location,SaveVehicleLocation,,0x6A,,RPG::SaveVehicleLocation
+1082,Save,airship_location,SaveVehicleLocation,,0x6B,,RPG::SaveVehicleLocation
+1083,Save,actors,SaveActor,Array,0x6C,,array of RPG::SaveActor
+1084,Save,inventory,SaveInventory,,0x6D,,RPG::SaveInventory
+1085,Save,targets,SaveTarget,Array,0x6E,,array of RPG::SaveTarget
+1086,Save,map_info,SaveMapInfo,,0x6F,,RPG::SaveMapInfo
+1087,Save,panorama,SavePanorama,,0x70,,Used to store panorama position data. Used by RPG_RT 2k3 1.12 in other versions an empty object.
+1088,Save,events,SaveEventData,,0x71,,RPG::SaveEventData
+1089,Save,common_events,SaveCommonEvent,Array,0x72,,array of RPG::SaveCommonEvent
+1090,Equipment,weapon_id,Int16,,,0,
+1091,Equipment,shield_id,Int16,,,0,
+1092,Equipment,armor_id,Int16,,,0,
+1093,Equipment,helmet_id,Int16,,,0,
+1094,Equipment,accessory_id,Int16,,,0,
+1095,EventCommand,code,Number,,,0,
+1096,EventCommand,indent,Number,,,0,
+1097,EventCommand,string,String,,,'',
+1098,EventCommand,parameters,Number,List,,,
+1099,MoveCommand,command_id,Number,,,0,
+1100,MoveCommand,parameter_string,String,,,'',
+1101,MoveCommand,parameter_a,Number,,,0,
+1102,MoveCommand,parameter_b,Number,,,0,
+1103,MoveCommand,parameter_c,Number,,,0,
+1104,Parameters,maxhp,Int16,Tuple_99,,,
+1105,Parameters,maxsp,Int16,Tuple_99,,,
+1106,Parameters,attack,Int16,Tuple_99,,,
+1107,Parameters,defense,Int16,Tuple_99,,,
+1108,Parameters,spirit,Int16,Tuple_99,,,
+1109,Parameters,agility,Int16,Tuple_99,,,
+1110,Rect,l,UInt32,,,0,
+1111,Rect,t,UInt32,,,0,
+1112,Rect,r,UInt32,,,0,
+1113,Rect,b,UInt32,,,0,
+1114,TreeMap,maps,MapInfo,Array,,,
+1115,TreeMap,tree_order,Number,List,,,
+1116,TreeMap,active_node,Number,,,0,
+1117,TreeMap,start,Start,,,,

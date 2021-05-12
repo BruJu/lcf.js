@@ -22,6 +22,5 @@ console.error(
             depth: null,
             colors: true
         }
-
     )
 );

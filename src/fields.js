@@ -5,7 +5,7 @@ const fs = require("fs");
  * Reader for the `fields.csv` resource file
  */
 class Fields {
-    constructor(path = "resource/fields.csv") {
+    constructor(path = "resource/fields_java.csv") {
         const input = fs.readFileSync(path, "utf-8");
 
         const csv = Papa.parse(input, { header: true });
@@ -20,7 +20,9 @@ class Fields {
             if (this.structures[field.Structure] === undefined) {
                 this.structures[field.Structure] = new Structure(this, field);
             }
-
+        }
+            
+        for (let field of csv.data) {
             this.structures[field.Structure].addField(field);
         }
     }
@@ -65,10 +67,25 @@ class Fields {
         };
     }
 
-    getHandlerFor(structure) {
-        const definition = this.structures[structure];
-        if (definition === undefined) return undefined;
+    getHandler(type, index) {
+        if (type === "String") {
+            if (index === undefined) {
+                return Handlers.String.ByBlock;
+            } else {
+                return Handlers.String.Sequential;
+            }
+        }
 
+        if (["Int8", "Int16", "Int32", "Number", "UInt8", "UInt16", "UInt32", "Boolean", "SizeField", "Double"].find(t => t === type)) {
+            return Handlers[type];
+        }
+
+        if (type.endsWith("_Flags") || type === "MoveCommandSpecial") {
+            return Handlers.Int32;
+        }
+    
+        const definition = this.structures[type];
+        if (definition === undefined) return undefined;
         return (a, b) => definition.read(a, b);
     }
 }
@@ -85,7 +102,24 @@ class Structure {
         this.fields = [];
     }
 
-    _readSerial(binary_file_reader, allocated_bytes) {
+    addField(field) {
+        const expectedRead = field.Index === "" ? this._readSerial : this._readByFields;
+
+        if (expectedRead !== this.read) {
+            throw Error(`Structure ${this.name} have two incoherent fields Index wise`);
+        }
+
+        if (field.Type === "") return;
+
+        this.fields.push({
+            name: field.Field,
+            read: makeHandler(this.FIELDS, field.Disposition, field.Type),
+            Index: parseInt(field.Index, 16),
+            DefaultValue: this.fields['Default Value']
+        });
+    }
+
+    _readSerial(binary_file_reader, _allocated_bytes) {
         const result = [];
 
         for (const field of this.fields) {
@@ -105,13 +139,17 @@ class Structure {
     _readByFields(binary_file_reader, allocated_bytes) {
         const result = [];
 
+        console.error("{" + this.name);
+
+        const maxCursor = binary_file_reader.cursor + allocated_bytes;
+
         while (true) {
-            if (binary_file_reader.isFinished()) break;
+            if (binary_file_reader.isFinished() || binary_file_reader.cursor == maxCursor) break;
             
-            const blockNumber = binary_file_reader.readBERNumber();
+            const blockNumber = binary_file_reader.readBERNumber("Read block #");
             if (blockNumber === 0) break;
 
-            const size = binary_file_reader.readBERNumber();
+            const size = binary_file_reader.readBERNumber("Read size ");
 
             if (size !== 0) {
                 const field = this.findField(blockNumber);
@@ -124,6 +162,9 @@ class Structure {
                 )
             }
         }
+
+        console.error("}");
+
         return result;
     }
 
@@ -134,101 +175,146 @@ class Structure {
         }
         return this.fields.find(field => field.Index === blockNumber);
     }
-
-    addField(field) {
-        const expectedRead = field.Index === "" ? this._readSerial : this._readByFields;
-
-        if (expectedRead !== this.read) {
-            throw Error(`Structure ${this.name} have two incoherent fields Index wise`);
-        }
-
-        this.fields.push({
-            name: field.Field,
-            Index: parseInt(field.Index, 16),
-            read: makeHandler(this.FIELDS, F.readType(field.Type))
-        });
-    }
 }
 
 // ==== Field factory
 
-const F = {
-    /**
-     * 
-     * @param {String} type 
-     */
-    readType(type) {
-        const regex = /^([a-zA-z0-9]*)<(.*)>$/m;
-        const m = type.match(regex);
+function makeHandler(FIELDS, disposition, type, index) {
+    const singleElementHandler = FIELDS.getHandler(type, index);
 
-        if (m === null) return [type];
-        return [m[1], this.readType(m[2])];
+    if (singleElementHandler === undefined) {
+        console.error("No handler for <<" + type + ">>");
+        throw Error("No handler");
     }
 
-}
-
-function makeHandler(FIELDS, type_) {
-    if (type_[0] === 'Array') {
-        const handler = new HandlerArray(FIELDS, type_.slice(1));
-        return (a, b) => handler.read(a, b);
-    } else if (type_[0] === "Ref") {
-        return Handler.Int32;
-    } else if (type_[0] === "Enum") {
-        return Handler.Int32;
-    } else if (type_[0] === "DBString") {
-        return Handler.String;
+    switch (disposition) {
+        case ""      : return handlerSingle(singleElementHandler);
+        case "List"  : return handlerList  (singleElementHandler);
+        case "Vector": return handlerVector(singleElementHandler);
+        case "Array" : return handlerArray (singleElementHandler);
     }
 
-    const handler = FIELDS.getHandlerFor(type_[0]);
-    if (handler) return handler;
+    if (disposition.startsWith("Tuple_")) {
+        const quantity = parseInt(disposition.substr("Tuple_".length));
+        return handlerTuple(singleElementHandler, quantity);
+    }
 
-    return Handler.Unknown;
+    throw Error(`Unknown disposition: ${disposition}`);
 }
 
-// ==== Field implementations
+function handlerList(singleElementHandler) {
+    return (reader, _) => {
+        const quantity = reader.readBERNumber();
 
-const Handler = {
-    Unknown: (_binary_file_reader, _size) => {},
-    Int32: (binary_file_reader, _size) => binary_file_reader.readBERNumber(),
-    "String": function(binary_file_reader, size) {
-        if (size === undefined) {
-            size = binary_file_reader.readBERNumber();
+        let l = [];
+        for (let i = 0 ; i != quantity ; ++i) {
+            l.push(singleElementHandler(reader, undefined));
         }
 
-        return binary_file_reader.readString(size);
+        return l;
     }
+}
 
+
+function handlerTuple(singleElementHandler, quantity) {
+    return (reader, _) => {
+        let l = [];
+        for (let i = 0 ; i != quantity ; ++i) {
+            l.push(singleElementHandler(reader, undefined));
+        }
+
+        return l;
+    }
+}
+
+function handlerVector(singleElementHandler) {
+    return (reader, size) => {
+        let base = reader.cursor;
+
+        let l = [];
+        while (reader.cursor < base + size) {
+            l.push(singleElementHandler(reader, undefined));
+        }
+        return l;
+    }
+}
+
+function handlerArray(singleElementHandler) {
+    return (reader, _) => {
+        const quantity = reader.readBERNumber();
+
+        let l = {};
+        for (let i = 0 ; i != quantity ; ++i) {
+            const id = reader.readBERNumber();
+            l[id] = singleElementHandler(reader, undefined);
+        }
+
+        return l;
+    }
+}
+
+const Handlers = {
+    "String": {
+        ByBlock: (reader, bytes) => reader.readString(bytes),
+        Sequential: (reader, _) => reader.readString(reader.readBERNumber())
+    },
+    "Int8": makeHandlerForInt(1, dataview => dataview.getInt8(0)),
+    "Int16": makeHandlerForInt(2, dataview => dataview.getInt16(0, true)),
+    "Int32": makeHandlerForInt(4, dataview => dataview.getInt32(0, true)),
+    "UInt8": makeHandlerForUInt(1),
+    "UInt16": makeHandlerForUInt(2),
+    "UInt32": makeHandlerForUInt(4),
+    "Boolean": (reader, _) => {
+        let v = reader.readNext();
+        if (v === 0) return false;
+        if (v === 1) return true;
+        throw Error("Handlers::Boolean - Unknown value " + v);
+    },
+    "Number": (reader, _) => reader.readBERNumber(),
+    "SizeField": (reader, _) => reader.readBERNumber(),
+    "Double": (reader, o) => {
+        reader.cursor += o;
+        return "";
+    }
 };
 
-
-
-
-class HandlerArray {
-    constructor(FIELDS, remainingTypes) {
-        this.subhandler = makeHandler(FIELDS, remainingTypes);
+function extract(reader, size) {
+    let bytes = [];
+    for (let i = 0 ; i != size ; ++i) {
+        bytes.push(reader.readNext());
     }
+    return bytes;
+}
 
-    /**
-     * 
-     * @param {BinaryFile} binary_file_reader 
-     */
-    read(binary_file_reader, _size) {
-        const number_of_elements = binary_file_reader.readBERNumber();
-        let map = {};
-
-        for (let i = 0 ; i != number_of_elements ; ++i) {
-            const id = binary_file_reader.readBERNumber();
-            const data = this.subhandler(binary_file_reader);
-            map[id] = data;
-        }
-
-        return map;
+function makeHandlerForInt(size, finalizer) {
+    return (reader, _) => {
+        let bytes = extract(reader, size);
+        let data = new Uint8Array(bytes);
+        let dataView = new DataView(data.buffer);
+        return finalizer(dataView);
     }
 }
+
+function makeHandlerForUInt(size) {
+    return (reader, _) => {
+        let bytes = extract(reader, size);
+        let v = 0;
+        for (const byte of bytes) {
+            v = v * 0x100 + byte;
+        }
+        return v;
+    }
+}
+
+function handlerSingle(singleElementHandler) {
+    return singleElementHandler;
+}
+
 
 //
 
 module.exports = Fields;
 
 // For definition only
-const BinaryFile = require("./binary_file_reader");
+const BinaryFile = require("./binary_file_reader");const { exit } = require("process");
+
