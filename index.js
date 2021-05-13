@@ -16,11 +16,13 @@ let fields = new Fields();
 
 
 console.error(
-    util.inspect(
-        BinaryFileReader.translate(fields, "test/res/RPG_RT.lmt"),
-        {
-            depth: null,
-            colors: true
-        }
-    )
+//    util.inspect(
+        BinaryFileReader.translate(fields, "b:/Save01.lsd"),
+//        {
+//            depth: null,
+//            colors: true
+//        }
+//    )
 );
+
+console.error(fields.getListOfUnhandledTypes());

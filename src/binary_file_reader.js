@@ -33,9 +33,6 @@ class BinaryFile {
             }
         }
 
-        if (message === undefined) message = "Read number ";
-        console.error(message + number);
-
         return number;
     }
 
