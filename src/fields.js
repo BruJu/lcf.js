@@ -149,7 +149,7 @@ class Fields {
         };
 
         for (const [typeName, table] of Object.entries(read_enums())) {
-            this.structures[typeName] = new EnumType(table);
+            this.structures["Enum<" + typeName + ">"] = new EnumType_(typeName, table);
         }
 
         for (let field of csv) {
@@ -252,9 +252,10 @@ class DefaultType {
     }
 }
 
-class EnumType {
-    constructor(table) {
+class EnumType_ {
+    constructor(typename, table) {
         this.table = table;
+        this.name = typename;
     }
 
     read(binary_file_reader, allocated_bytes) {
