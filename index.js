@@ -16,13 +16,13 @@ let fields = new Fields();
 
 
 console.error(
-//    util.inspect(
+    util.inspect(
         BinaryFileReader.translate(fields, "b:/Save01.lsd"),
-//        {
-//            depth: null,
-//            colors: true
-//        }
-//    )
+        {
+            depth: null,
+            colors: true
+        }
+    )
 );
 
-console.error(fields.getListOfUnhandledTypes());
+//console.error(fields.getListOfUnhandledTypes());

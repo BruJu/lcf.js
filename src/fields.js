@@ -1,18 +1,123 @@
 const Papa = require("papaparse");
 const fs = require("fs");
 
+const FieldsCSVFix = {
+    adaptType: function(type, isSizeField) {
+        if (isSizeField === 't') {
+            return ["", "SizeField"];
+        }
+
+        let disposition = "";
+
+        let vec = FieldsCSVFix.maybeExtract(type, "Vector");
+        if (vec !== null) {
+            disposition = vec[0]; type = vec[1];
+        }
+        
+        vec = FieldsCSVFix.maybeExtract(type, "Array");
+        if (vec !== null) {
+            disposition = vec[0]; type = vec[1];
+        }
+
+        if (type.startsWith("Ref")) {
+            type = "Number";
+        }
+
+        let pointpoint = type.split(":");
+        if (pointpoint.length != 1) {
+            type = pointpoint[1];
+
+            if (type.startsWith("Ref")) {
+                type = "Number";
+            }
+        }
+
+        if (type.startsWith("Enum")) {
+            type = "Number";
+        }
+
+        if (type === "Int32") {
+            type = "Number";
+        }
+
+        if (type === 'EmptyBlock') type = "";
+
+        return [disposition, type];
+    },
+    maybeExtract: function(type, str) {
+        if (type.startsWith(str)) {
+            let t = type.substr(str.length + 1);
+            return [str, t.substr(0, t.length - 1)]
+        } else {
+            return null;
+        }
+    },
+    pickRM2k3Default(str) {
+        let split = str.split("|");
+        return split[split.length - 1];
+    }
+
+};
+
+function _load_csv(path = "resource/fields_old.csv") {
+    const input = fs.readFileSync(path, "utf-8");
+    const csv = Papa.parse(input, { header: true });
+
+    if (csv.errors.length !== 0) {
+        throw Error("Error when parsing the fields.csv file");
+    }
+
+    for (let i = 0 ; i != csv.data.length ; ++i) {
+        // Add line number for equality (TODO: remove)
+        const data = csv.data[i];
+        data.Line = i + 1;
+
+        data['Default Value'] = FieldsCSVFix.pickRM2k3Default(data['Default Value']);
+
+        // Adapt the type
+        const [disposition, type] = FieldsCSVFix.adaptType(data.Type, data['Size Field?']);
+        data.Disposition = disposition;
+        data.Type = type;
+    }
+
+    function change(structureName, fieldName, type, disposition) {
+        let field = csv.data.find(field => field.Structure === structureName && field.Field === fieldName && field.Type !== 'SizeField');
+        if (field === undefined) return;
+
+        field.Type = type;
+        field.Disposition = disposition;
+    }
+
+    change("Actor"     , "battle_commands", "UInt32", "Tuple_7");
+    change("Class"     , "battle_commands", "UInt32", "Tuple_7");
+    change("SaveActor" , "battle_commands", "UInt32", "Tuple_7");
+    change("Parameters", "maxsp"  , "Int16", "Tuple_99");
+    change("Parameters", "maxhp"  , "Int16", "Tuple_99");
+    change("Parameters", "attack" , "Int16", "Tuple_99");
+    change("Parameters", "defense", "Int16", "Tuple_99");
+    change("Parameters", "spirit" , "Int16", "Tuple_99");
+    change("Parameters", "agility", "Int16", "Tuple_99");
+    change("EventCommand", "parameters", "Number", "List");
+    change("TreeMap"     , "tree_order", "Number", "List");
+
+    change("Database"     , "version", "Number", "");
+    change("MoveRoute", "move_commands", "MoveCommandSpecial", "");
+
+    change("Equipment", "weapon_id"   , "Int16", "");
+    change("Equipment", "shield_id"   , "Int16", "");
+    change("Equipment", "armor_id"    , "Int16", "");
+    change("Equipment", "helmet_id"   , "Int16", "");
+    change("Equipment", "accessory_id", "Int16", "");
+
+    return csv.data;
+}
+
 /**
  * Reader for the `fields.csv` resource file
  */
 class Fields {
-    constructor(path = "resource/fields_java.csv") {
-        const input = fs.readFileSync(path, "utf-8");
-
-        const csv = Papa.parse(input, { header: true });
-
-        if (csv.errors.length !== 0) {
-            throw Error("Error when parsing the fields.csv file");
-        }
+    constructor(path = "resource/fields_old.csv") {
+        const csv = _load_csv(path);
 
         this.structures = {};
 
@@ -22,13 +127,13 @@ class Fields {
             this.structures[typeName] = new DefaultType(handler);
         };
 
-        for (let field of csv.data) {
+        for (let field of csv) {
             if (this.structures[field.Structure] === undefined) {
                 this.structures[field.Structure] = new Structure(this, field);
             }
         }
             
-        for (let field of csv.data) {
+        for (let field of csv) {
             this.structures[field.Structure].addField(field);
         }
     }
