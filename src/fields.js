@@ -32,10 +32,6 @@ const FieldsCSVFix = {
             }
         }
 
-        if (type.startsWith("Enum")) {
-            type = "Number";
-        }
-
         if (type === "Int32") {
             type = "Number";
         }
@@ -113,6 +109,30 @@ function _load_csv(path = "resource/fields_old.csv") {
     return csv.data;
 }
 
+function read_enums(path = "resource/enums.csv") {
+    const input = fs.readFileSync(path, "utf-8");
+    const csv = Papa.parse(input, { header: true });
+
+    if (csv.errors.length !== 0) {
+        console.error(csv.errors);
+        throw Error("Error when parsing the fields.csv file");
+    }
+
+    let structs = {};
+
+    for (const data of csv.data) {
+        let key = data['#Structure'] + "_" + data.Entry;
+
+        if (structs[key] === undefined) {
+            structs[key] = [];
+        }
+
+        structs[key].push([parseInt(data.Index), data.Value]);
+    }
+
+    return structs;
+}
+
 /**
  * Reader for the `fields.csv` resource file
  */
@@ -127,6 +147,10 @@ class Fields {
         for (const [typeName, handler] of Object.entries(BasicTypeHandlers)) {
             this.structures[typeName] = new DefaultType(handler);
         };
+
+        for (const [typeName, table] of Object.entries(read_enums())) {
+            this.structures[typeName] = new EnumType(table);
+        }
 
         for (let field of csv) {
             if (this.structures[field.Structure] === undefined) {
@@ -225,6 +249,24 @@ class Fields {
 class DefaultType {
     constructor(handler) {
         this.read = handler;
+    }
+}
+
+class EnumType {
+    constructor(table) {
+        this.table = table;
+    }
+
+    read(binary_file_reader, allocated_bytes) {
+        let data = binary_file_reader.readBERNumber();
+
+        let x = this.table.find(t => t[0] === data);
+
+        if (x === undefined) {
+            throw Error(`Unknown value for ${this.name}: ${data}`);
+        }
+
+        return x[1];
     }
 }
 
