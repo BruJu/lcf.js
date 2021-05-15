@@ -64,6 +64,7 @@ function _load_csv(path = "resource/fields_old.csv") {
     const csv = Papa.parse(input, { header: true });
 
     if (csv.errors.length !== 0) {
+        console.error(csv.errors);
         throw Error("Error when parsing the fields.csv file");
     }
 

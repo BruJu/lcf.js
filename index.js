@@ -14,10 +14,19 @@ let fields = new Fields();
 //console.error(Fields.getInitialStructure(initialType));
 
 
-
 console.error(
     util.inspect(
         BinaryFileReader.translate(fields, "b:/Save01.lsd"),
+        {
+            depth: null,
+            colors: true
+        }
+    )
+);
+
+console.error(
+    util.inspect(
+        BinaryFileReader.translate(fields, "b:/RPG_RT.lmt"),
         {
             depth: null,
             colors: true
