@@ -15,18 +15,23 @@ let fields = new Fields();
 //console.error(Fields.getInitialStructure(initialType));
 
 if (require.main === module) {
+    let save = BinaryFileReader.translate(fields, "b:/Save07.lsd");
 
+    console.error(save.getLeaderName());
+    console.error(save.getVariableState(4942));
+    console.error(save.getSwitchState(2620));
+    console.error(save.getSwitchState(2656));
 
-    console.error(
-        util.inspect(
-            BinaryFileReader.translate(fields, "b:/Save01.lsd"),
-            {
-                depth: null,
-                colors: true
-            }
-        )
-    );
-
+    //console.error(
+    //    util.inspect(
+    //        BinaryFileReader.translate(fields, "b:/Save01.lsd"),
+    //        {
+    //            depth: null,
+    //            colors: true
+    //        }
+    //    )
+    //);
+/*
     console.error(
         util.inspect(
             BinaryFileReader.translate(fields, "b:/RPG_RT.lmt"),
@@ -36,7 +41,7 @@ if (require.main === module) {
             }
         )
     );
-
+*/
     
 //console.error(fields.getListOfUnhandledTypes());
 

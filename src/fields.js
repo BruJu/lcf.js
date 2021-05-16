@@ -1,5 +1,6 @@
 const Papa = require("papaparse");
 const fs = require("fs");
+const LCFSave = require('./lcfsave');
 
 const FieldsCSVFix = {
     adaptType: function(type, isSizeField) {
@@ -106,6 +107,8 @@ function _load_csv(path = "resource/fields_old.csv") {
     change("Equipment", "helmet_id"   , "Int16", "");
     change("Equipment", "accessory_id", "Int16", "");
 
+    change("SaveSystem", "variables", "Int32", "Vector");
+
     return csv.data;
 }
 
@@ -193,9 +196,15 @@ class Fields {
             throw Error("Unknown structure " + structure);
         }
 
-        return structureDefinition.read(
+        let rawData = structureDefinition.read(
             binary_file_reader, binary_file_reader.remaining_bytes()
         );
+
+        if (initialType === "LcfSaveData") {
+            return new LCFSave(rawData);
+        } else {
+            return rawData;
+        }
     }
 
     makeHandler(disposition, type, canFail) {
@@ -430,14 +439,16 @@ const BasicTypeHandlers = {
 
 function _readWithUint8Array(size, finalizer) {
     return (reader, _) => {
-        let data = new Uint8Array(reader.rawData, reader.cursor, size);
+        let data = new Uint8Array(reader.rawData);
+        let dataView = new DataView(data.buffer, reader.cursor, size);
         reader.cursor += size;
-        let dataView = new DataView(data.buffer);
         return finalizer(dataView);
     }
 }
 
 //
+
+
 
 module.exports = Fields;
 
