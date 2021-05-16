@@ -3,6 +3,7 @@ const BinaryFileReader = require("./src/binary_file_reader.js");
 const util = require('util');
 
 let fields = new Fields();
+
 // fields._print("Save");
 
 //const file = new BinaryFileReader("B:/Save01.lsd");
@@ -13,25 +14,35 @@ let fields = new Fields();
 //
 //console.error(Fields.getInitialStructure(initialType));
 
+if (require.main === module) {
 
-console.error(
-    util.inspect(
-        BinaryFileReader.translate(fields, "b:/Save01.lsd"),
-        {
-            depth: null,
-            colors: true
-        }
-    )
-);
 
-console.error(
-    util.inspect(
-        BinaryFileReader.translate(fields, "b:/RPG_RT.lmt"),
-        {
-            depth: null,
-            colors: true
-        }
-    )
-);
+    console.error(
+        util.inspect(
+            BinaryFileReader.translate(fields, "b:/Save01.lsd"),
+            {
+                depth: null,
+                colors: true
+            }
+        )
+    );
 
+    console.error(
+        util.inspect(
+            BinaryFileReader.translate(fields, "b:/RPG_RT.lmt"),
+            {
+                depth: null,
+                colors: true
+            }
+        )
+    );
+
+    
 //console.error(fields.getListOfUnhandledTypes());
+
+}
+
+
+module.exports = function(path) {
+    return BinaryFileReader.translate(fields, path);
+}

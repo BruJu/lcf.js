@@ -109,7 +109,7 @@ function _load_csv(path = "resource/fields_old.csv") {
     return csv.data;
 }
 
-function read_enums(path = "resource/enums.csv") {
+function read_enums(path = __dirname + "\\..\\resource\\enums.csv") {
     const input = fs.readFileSync(path, "utf-8");
     const csv = Papa.parse(input, { header: true });
 
@@ -137,7 +137,7 @@ function read_enums(path = "resource/enums.csv") {
  * Reader for the `fields.csv` resource file
  */
 class Fields {
-    constructor(path = "resource/fields_old.csv") {
+    constructor(path = __dirname + "\\..\\resource\\fields_old.csv") {
         const csv = _load_csv(path);
 
         this.structures = {};
