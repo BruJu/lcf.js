@@ -6,7 +6,11 @@ const Fields = require("./fields");
  */
 class BinaryFile {
     constructor(path) {
-        this.rawData = fs.readFileSync(path);
+        if (path.buffer !== undefined) {
+            this.rawData = path.buffer;
+        } else {
+            this.rawData = fs.readFileSync(path);
+        }
         this.cursor = 0;
     }
 
