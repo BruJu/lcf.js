@@ -1,6 +1,4 @@
-const Fields = require('./src/fields.js');
-const BinaryFileReader = require("./src/binary_file_reader.js");
-const util = require('util');
+import Fields, { translate } from "./src/fields";
 
 let fields = new Fields();
 
@@ -15,7 +13,7 @@ let fields = new Fields();
 //console.error(Fields.getInitialStructure(initialType));
 
 if (require.main === module) {
-    let save = BinaryFileReader.translate(fields, "b:/Save07.lsd");
+    let save = translate(fields, "b:/Save07.lsd");
 
     console.error(save.getLeaderName());
     console.error(save.getVariableState(4942));
@@ -47,7 +45,6 @@ if (require.main === module) {
 
 }
 
-
-module.exports = function(path) {
-    return BinaryFileReader.translate(fields, path);
+export default function readFile(path: string) {
+  return translate(fields, path);
 }
