@@ -1,16 +1,80 @@
-import BinaryFileReader from "./binary_file_reader";
+/**
+ * A class that parses an RPG Maker 2003 binary file and translates it
+ */
+export default class BufferReader {
+  readonly rawData: Buffer;
+  cursor: number;
+
+  constructor(buffer: Buffer) {
+    this.rawData = buffer;
+    this.cursor = 0;
+  }
+
+  /**
+   * Read the following data by considering it is a BER encoded number.
+   * 
+   * A BER encoded number is a number that can be arbitrarly long. The highest
+   * byte encodes whetever the next byte is part of this number.
+   * 
+   * @returns The value
+   */
+  readBERNumber() {
+    let number = 0;
+
+    while (true) {
+      const value = this.rawData[this.cursor];
+
+      ++this.cursor;
+
+      number = number * 0x80 + (value & 0x7F);
+
+      if ((value & 0x80) === 0) {
+        break;
+      }
+    }
+
+    return number;
+  }
+
+  /**
+   * Read the following data by considering it is a string.
+   * @param size The number of characters of the string
+   * @returns The string
+   */
+  readString(size: number) {
+    const buffer = Buffer.from(this.rawData.slice(this.cursor, this.cursor + size));
+    this.cursor += size;
+    return buffer.toString('latin1') // "ISO-8859-15"
+  }
+
+  readNext() {
+    const value = this.rawData[this.cursor];
+    ++this.cursor;
+    return value;
+  }
+
+  remaining_bytes() {
+    return this.rawData.length - this.cursor;
+  }
+
+  isFinished() {
+    return this.rawData.length <= this.cursor;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 
-export type DataProducer<T> = (reader: BinaryFileReader, bytes: number) => T;
+export type DataProducer<T> = (reader: BufferReader, bytes: number) => T;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Primary types
 
-export function readNumber(reader: BinaryFileReader, _: number) {
+export function readNumber(reader: BufferReader, _: number) {
   return reader.readBERNumber();
 }
 
-export function readSizeField(reader: BinaryFileReader, _: number) {
+export function readSizeField(reader: BufferReader, _: number) {
   return reader.readBERNumber();
 }
 
@@ -21,7 +85,7 @@ export const readUInt8  = readWithView(1, dataview => dataview.getUint8(0));
 export const readUInt16 = readWithView(2, dataview => dataview.getUint16(0, true));
 export const readUInt32 = readWithView(4, dataview => dataview.getUint32(0, true));
 
-export function readBoolean(reader: BinaryFileReader, _: number) {
+export function readBoolean(reader: BufferReader, _: number) {
   let v = reader.readNext();
   if (v === 0) return false;
   if (v === 1) return true;
@@ -29,7 +93,7 @@ export function readBoolean(reader: BinaryFileReader, _: number) {
 }
 
 function readWithView(size: number, finalizer: (dataView: DataView) => number) {
-  return (reader: BinaryFileReader, _: number) => {
+  return (reader: BufferReader, _: number) => {
     let data = new Uint8Array(reader.rawData);
     let dataView = new DataView(data.buffer, reader.cursor, size);
     reader.cursor += size;
@@ -42,7 +106,7 @@ function readWithView(size: number, finalizer: (dataView: DataView) => number) {
 // Monads
 
 export function readList<T>(singleElementProducer: DataProducer<T>): DataProducer<T[]> {
-  return (reader: BinaryFileReader, _: number) => {
+  return (reader: BufferReader, _: number) => {
     const quantity = reader.readBERNumber();
 
     let l: T[] = [];
@@ -54,7 +118,7 @@ export function readList<T>(singleElementProducer: DataProducer<T>): DataProduce
 }
 
 export function readTuple<T>(singleElementProducer: DataProducer<T>, quantity: number): DataProducer<T[]> {
-  return (reader: BinaryFileReader, _: number) => {
+  return (reader: BufferReader, _: number) => {
     let l: T[] = [];
     for (let i = 0; i != quantity; ++i) {
       l.push(singleElementProducer(reader, 0));
@@ -64,7 +128,7 @@ export function readTuple<T>(singleElementProducer: DataProducer<T>, quantity: n
 }
 
 export function readVector<T>(singleElementProducer: DataProducer<T>): DataProducer<T[]> {
-  return (reader: BinaryFileReader, size: number) => {
+  return (reader: BufferReader, size: number) => {
     let base = reader.cursor;
 
     let l = [];
@@ -76,7 +140,7 @@ export function readVector<T>(singleElementProducer: DataProducer<T>): DataProdu
 }
 
 export function readArray<T>(singleElementProducer: DataProducer<T>): DataProducer<{[key: string]: T}> {
-  return (reader: BinaryFileReader, _: number) => {
+  return (reader: BufferReader, _: number) => {
     const quantity = reader.readBERNumber();
 
     let l: {[key: string]: T} = {};
@@ -88,3 +152,4 @@ export function readArray<T>(singleElementProducer: DataProducer<T>): DataProduc
     return l;
   };
 }
+

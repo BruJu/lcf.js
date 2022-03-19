@@ -1,8 +1,8 @@
 import Papa from "papaparse";
-import fs from "fs";
-import BinaryFileReader from "./binary_file_reader";
+import * as fs from "fs";
+import BinaryFileReader, * as UnitReader from "./BufferReader";
 import toLCFSave from "./lcfsave";
-import * as UnitReader from "./unit-reader";
+import * as FieldsCSVFix from "./csv-fixer";
 
 /**
  * Translate the content of the given LCF file to a JS object
@@ -10,66 +10,13 @@ import * as UnitReader from "./unit-reader";
  * @param path The path to the file to translate
  */
 export function translate(fields: Fields, path: string) {
-  const file = new BinaryFileReader(path);
+  const buffer = fs.readFileSync(path);
+  const file = new BinaryFileReader(buffer);
   const size = file.readBERNumber();
   const initialType = file.readString(size);
   return fields.convert(file, initialType);
 }
 
-const FieldsCSVFix = {
-  adaptType(type: string, isSizeField: string): [string, string] {
-    if (isSizeField === 't') {
-       return ["", "SizeField"];
-    }
-
-    let disposition = "";
-
-    let vec = FieldsCSVFix.maybeExtract(type, "Vector");
-    if (vec !== null) {
-      disposition = vec[0]; type = vec[1];
-    }
-      
-    vec = FieldsCSVFix.maybeExtract(type, "Array");
-    if (vec !== null) {
-      disposition = vec[0]; type = vec[1];
-    }
-
-    if (type.startsWith("Ref")) {
-      type = "Number";
-    }
-
-    let pointpoint = type.split(":");
-    if (pointpoint.length != 1) {
-      type = pointpoint[1];
-
-      if (type.startsWith("Ref")) {
-        type = "Number";
-      }
-    }
-
-    if (type === "Int32") {
-      type = "Number";
-    }
-
-    if (type === 'EmptyBlock') type = "";
-
-    return [disposition, type];
-  },
-
-  maybeExtract(type: string, str: string): [string, string] | null {
-    if (type.startsWith(str)) {
-      let t = type.substring(str.length + 1);
-      return [str, t.substring(0, t.length - 1)]
-    } else {
-      return null;
-    }
-  },
-
-  pickRM2k3Default(str: string): string {
-    let split = str.split("|");
-    return split[split.length - 1];
-  }
-};
 
 export type LoadedCSVData = {
   Structure: string;
@@ -106,7 +53,7 @@ function loadedCsvDataToField(csvData: LoadedCSVData, lineNumber: number): Field
 
 export function _load_csv(path: string = "resource/fields_old.csv") {
   const input = fs.readFileSync(path, "utf-8");
-  const csv = Papa.parse(input, { header: true });
+  const csv = Papa.parse<LoadedCSVData>(input, { header: true });
 
   if (csv.errors.length !== 0) {
     console.error(csv.errors);
@@ -116,7 +63,7 @@ export function _load_csv(path: string = "resource/fields_old.csv") {
   let fields: Field[] = [];
 
   for (let i = 0 ; i != csv.data.length ; ++i) {
-    fields.push(loadedCsvDataToField(csv.data[i] as LoadedCSVData, i + 1));
+    fields.push(loadedCsvDataToField(csv.data[i], i + 1));
   }
 
   function change(structureName: string, fieldName: string, type: string, disposition: string) {
