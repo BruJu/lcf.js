@@ -18,6 +18,7 @@
   "homepage": "https://github.com/BruJu/lcf.js#readme",
   "dependencies": {
     "csv-load-sync": "^2.3.1",
+    "mnemonist": "^0.39.0",
     "papaparse": "^5.3.0"
   },
   "devDependencies": {

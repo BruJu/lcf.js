@@ -2,6 +2,7 @@ import Papa from "papaparse";
 import fs from "fs";
 import BinaryFileReader from "./binary_file_reader";
 import toLCFSave from "./lcfsave";
+import * as UnitReader from "./unit-reader";
 
 /**
  * Translate the content of the given LCF file to a JS object
@@ -70,7 +71,7 @@ const FieldsCSVFix = {
   }
 };
 
-type LoadedCSVData = {
+export type LoadedCSVData = {
   Structure: string;
   Field: string;
   "Size Field?": string;
@@ -82,7 +83,7 @@ type LoadedCSVData = {
   "Comment": string;
 }
 
-type Field = LoadedCSVData & {
+export type Field = LoadedCSVData & {
   Line: number;
   Disposition: string;
 };
@@ -103,7 +104,7 @@ function loadedCsvDataToField(csvData: LoadedCSVData, lineNumber: number): Field
   return field;
 }
 
-function _load_csv(path: string = "resource/fields_old.csv") {
+export function _load_csv(path: string = "resource/fields_old.csv") {
   const input = fs.readFileSync(path, "utf-8");
   const csv = Papa.parse(input, { header: true });
 
@@ -266,14 +267,14 @@ export default class Fields {
     
     switch (disposition) {
       case ""      : return singleElementHandler;
-      case "List"  : return DispositionHandlers.List  (singleElementHandler);
-      case "Vector": return DispositionHandlers.Vector(singleElementHandler);
-      case "Array" : return DispositionHandlers.Array (singleElementHandler);
+      case "List"  : return UnitReader.readList(singleElementHandler);
+      case "Vector": return UnitReader.readVector(singleElementHandler);
+      case "Array" : return UnitReader.readArray(singleElementHandler);
     }
     
     if (disposition.startsWith("Tuple_")) {
       const quantity = parseInt(disposition.substring("Tuple_".length));
-      return DispositionHandlers.Tuple(singleElementHandler, quantity);
+      return UnitReader.readTuple(singleElementHandler, quantity);
     }
   
     throw Error(`Unknown disposition: ${disposition}`);
@@ -439,55 +440,6 @@ class Structure {
 
 // ==== Field factory
 
-
-
-const DispositionHandlers = {
-  "List": function<T> (singleElementHandler: DataProducer<T>): DataProducer<T[]> {
-    return (reader: BinaryFileReader) => {
-      const quantity = reader.readBERNumber();
-
-      let l: T[] = [];
-      for (let i = 0; i != quantity; ++i) {
-        l.push(singleElementHandler(reader, 0));
-      }
-      return l;
-    }
-  },
-  "Tuple": function<T> (singleElementHandler: DataProducer<T>, quantity: number): DataProducer<T[]> {
-    return (reader) => {
-      let l: T[] = [];
-      for (let i = 0; i != quantity; ++i) {
-        l.push(singleElementHandler(reader, 0));
-      }
-      return l;
-    }
-  },
-  "Vector": function<T> (singleElementHandler: DataProducer<T>): DataProducer<T[]> {
-    return (reader, size) => {
-      let base = reader.cursor;
-
-      let l = [];
-      while (reader.cursor < base + size) {
-        l.push(singleElementHandler(reader, 0));
-      }
-      return l;
-    }
-  },
-  "Array": function<T> (singleElementHandler: DataProducer<T>): DataProducer<{[key: string]: T}> {
-    return (reader) => {
-      const quantity = reader.readBERNumber();
-
-      let l: {[key: string]: T} = {};
-      for (let i = 0 ; i != quantity ; ++i) {
-        const id = reader.readBERNumber();
-        l[id] = singleElementHandler(reader, 0);
-      }
-
-      return l;
-    }
-  }
-};
-
 type DataProducer<T = any> = (reader: BinaryFileReader, bytes: number) => T;
 
 const BasicTypeHandlers
@@ -495,30 +447,13 @@ const BasicTypeHandlers
 = {
   "SequentialString": (reader, _) => reader.readString(reader.readBERNumber()),
   "BlockString": (reader, bytes) => reader.readString(bytes),
-  "Int8"  : _readWithUint8Array(1, dataview => dataview.getInt8(0)),
-  "Int16" : _readWithUint8Array(2, dataview => dataview.getInt16(0, true)),
-  "Int32" : _readWithUint8Array(4, dataview => dataview.getInt32(0, true)),
-  "UInt8" : _readWithUint8Array(1, dataview => dataview.getUint8(0)),
-  "UInt16": _readWithUint8Array(2, dataview => dataview.getUint16(0, true)),
-  "UInt32": _readWithUint8Array(4, dataview => dataview.getUint32(0, true)),
-  "Boolean": (reader, _) => {
-    let v = reader.readNext();
-    if (v === 0) return false;
-    if (v === 1) return true;
-    throw Error("Handlers::Boolean - Unknown value " + v);
-  },
-  "Number": (reader, _) => reader.readBERNumber(),
-  "SizeField": (reader, _) => reader.readBERNumber()
+  "Int8"  : UnitReader.readInt8,
+  "Int16" : UnitReader.readInt16,
+  "Int32" : UnitReader.readInt32,
+  "UInt8" : UnitReader.readUInt8,
+  "UInt16": UnitReader.readUInt16,
+  "UInt32": UnitReader.readUInt32,
+  "Boolean": UnitReader.readBoolean,
+  "Number": UnitReader.readNumber,
+  "SizeField": UnitReader.readSizeField
 };
-
-function _readWithUint8Array(size: number, finalizer: (dataView: DataView) => number) {
-  return (reader: BinaryFileReader, _: number) => {
-    let data = new Uint8Array(reader.rawData);
-    let dataView = new DataView(data.buffer, reader.cursor, size);
-    reader.cursor += size;
-    return finalizer(dataView);
-  }
-}
-
-//
-

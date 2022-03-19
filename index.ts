@@ -1,6 +1,11 @@
-import Fields, { translate } from "./src/fields";
+import Fields, { translate, _load_csv } from "./src/fields";
+import buildType from "./src/type-builder";
 
 let fields = new Fields();
+
+const ffff = _load_csv();
+
+buildType(ffff, "Actor");
 
 // fields._print("Save");
 
